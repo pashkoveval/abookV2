@@ -1,12 +1,15 @@
+import { initializeApp, getApp } from 'firebase/app';
 import { reactive } from 'vue';
+import { errorMessage } from '@/helpers';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
 
-import { initializeApp } from 'firebase/app';
 import {
 	getFirestore,
 	collection,
 	addDoc,
 	getDocs,
 	getDoc,
+	setDoc,
 	doc,
 } from 'firebase/firestore';
 
@@ -29,37 +32,60 @@ const firebaseConfig = {
 const fb = initializeApp(firebaseConfig);
 const db = getFirestore(fb);
 const auth = getAuth();
+const firebaseApp = getApp();
+const storage = getStorage(firebaseApp, 'gs://abook-4b16d.appspot.com/');
+const imagesRef = ref(storage, 'img');
 
-const login = (email, password) => {
-	signInWithEmailAndPassword(auth, email, password)
-		.then((userCredential) => {
-			// Signed in
-			const user = userCredential.user;
-			// ...
-			console.log('user', user);
-		})
-		.catch((error) => {
-			const errorCode = error.code;
-			const errorMessage = error.message;
-			console.log('errorCode', errorCode);
-			console.log('errorMessage', errorMessage);
-			// ..
-		});
+const login = async (email, password, flag) => {
+	if (flag) {
+		return await createUserWithEmailAndPassword(auth, email, password)
+			.then((userCredential) => {
+				const user = userCredential.user;
+				console.log('create user', user);
+				return user;
+			})
+			.catch((error) => {
+				errorMessage(error);
+			});
+	} else {
+		return await signInWithEmailAndPassword(auth, email, password)
+			.then((userCredential) => {
+				const user = userCredential.user;
+				console.log('login user', user);
+				return user;
+			})
+			.catch((error) => {
+				errorMessage(error);
+			});
+	}
 };
 
-const addEl = async (store, item) => {
+const addElement = async (collectionMame, item) => {
 	try {
-		const docRef = await addDoc(collection(db, store), item);
+		const docRef = await addDoc(collection(db, collectionMame), item);
 		console.log('Document written with ID: ', docRef.id);
+		console.log('docRef', docRef);
+		return docRef;
 	} catch (e) {
 		console.error('Error adding document: ', e);
 	}
 };
 
-const getStore = async (s) => {
+const setElement = async (element, item) => {
+	await setDoc(doc(db, element), item);
+};
+
+const uploadFyles = async (file) => {
+	return await uploadBytes(storage, file).then((snapshot) => {
+		console.log('Uploaded a blob or file!', snapshot);
+		return snapshot;
+	});
+};
+
+const getStore = async (name) => {
 	try {
 		const items = [];
-		const querySnapshot = await getDocs(collection(db, s));
+		const querySnapshot = await getDocs(collection(db, name));
 		querySnapshot.forEach((doc) => {
 			items.push({ id: doc.id, ...doc.data() });
 		});
@@ -73,6 +99,10 @@ export const firebaseState = reactive({
 	db,
 	auth,
 	login,
-	addEl,
+	storage,
 	getStore,
+	imagesRef,
+	setElement,
+	addElement,
+	uploadFyles,
 });

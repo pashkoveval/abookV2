@@ -9,7 +9,21 @@
 		password: null,
 		passwordConfirm: null,
 	});
-	const loginIn = () => firebaseState.login(email.value, password.value);
+	const loginIn = async () => {
+		console.log('imagesRef', firebaseState.imagesRef);
+		const user = await firebaseState.login(form.email, form.password, true);
+		const userForm = form;
+		console.log('liginIn userForm', userForm);
+		console.log('liginIn user', user);
+		userForm.accessToken = user.accessToken;
+		userForm.emailVerified = user.emailVerified;
+		userForm.metadata = user.metadata;
+		userForm.phoneNumber = user.phoneNumber;
+		userForm.photoURL = user.photoURL;
+		userForm.uid = user.uid;
+		const userCreates = await firebaseState.addElement('users', userForm);
+		console.log('liginIn userCreates', userCreates);
+	};
 	firebaseState.getStore('users');
 </script>
 
