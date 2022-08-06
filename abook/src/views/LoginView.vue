@@ -1,7 +1,10 @@
 <script setup>
-	import DropDownMenuVue from '../components/DropDownMenu/DropDownMenu.vue';
+	import { useUserStore } from '@/stores/user';
+	import SelectAvatars from '../components/SelectAvatars/SelectAvatars.vue';
 	import { firebaseState } from '@/fb';
 	import { reactive } from 'vue';
+
+	const user = useUserStore();
 	const form = reactive({
 		email: null,
 		avatar: null,
@@ -29,21 +32,19 @@
 	const sendAvatar = async (e) => {
 		const res = await firebaseState.uploadFyles(e.target.files[0]);
 		form.avatar = res;
+		user.pushNewAvatars({
+			select: true,
+			src: res,
+			alt: user.userData.fio || 'userAvatar',
+		});
 	};
-	import dfa from '@/assets/avatar/icons8-avatar-64.png';
-	const avatarPreset = reactive({
-		src: dfa,
-		width: 100,
-		height: 100,
-		alt: null,
-	});
 
 	firebaseState.getStore('users');
 </script>
 
 <template>
 	<div class="login">
-		<DropDownMenuVue title="Выбрать ваватар" :img="avatarPreset" />
+		<SelectAvatars title="Выбрать ваватар" />
 
 		<form @submit.prevent="loginIn">
 			<label>
@@ -72,11 +73,5 @@
 <style lang="scss" scoped>
 	.login {
 		position: relative;
-	}
-	.avatar {
-		// position: absolute;
-		// left: -9000px;
-		// top: -9000px;
-		// visibility: hidden;
 	}
 </style>

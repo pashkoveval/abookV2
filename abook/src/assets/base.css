@@ -1,11 +1,14 @@
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
+  --border-radius: 10px;
+  --transition: 0.4s;
+
   --vt-c-white: #ffffff;
-  --vt-c-green: hsla(160, 100%, 37%, 0.2);
-  --vt-c-green-soft: hsla(160, 100%, 37%, 1);
+  --vt-c-green: rgba(0, 189, 126, 0.2);
+  --vt-c-green-soft: rgb(0, 189, 126);
+  --vt-c-green-mute: rgb(2, 126, 84);
   --vt-c-white-soft: #f8f8f8;
   --vt-c-white-mute: #f2f2f2;
-
   --vt-c-black: #181818;
   --vt-c-black-soft: #222222;
   --vt-c-black-mute: #282828;
@@ -25,10 +28,8 @@
 
 /* semantic color variables for this project */
 :root {
-  --border-radius: 10px;
-  --transition: 0.4s;
-  --color-border-input: var(--vt-c-green);
-  --color-border-input-soft: var(--vt-c-green-soft);
+  --color-border-input: var(--vt-c-green-mute);
+  --color-border-input-focus: var(--vt-c-green-soft);
   --color-background: var(--vt-c-white);
   --color-background-green: var(--vt-c-green);
   --color-background-soft: var(--vt-c-white-soft);
@@ -47,7 +48,10 @@
   :root {
     --color-white: var(--vt-c-white);
     --color-border-input: var(--vt-c-green);
+    --color-border-input-focus: var(--vt-c-green-soft);
+    /* --color-border-input: var(--vt-c-green);
     --color-border-input-soft: var(--vt-c-green-soft);
+    --color-border-input-mute: var(--vt-c-green-mute); */
     --color-background: var(--vt-c-black);
     --color-background-soft: var(--vt-c-black-soft);
     --color-background-mute: var(--vt-c-black-mute);
@@ -58,6 +62,24 @@
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
   }
+}
+
+html.dark {
+  --color-white: var(--vt-c-white);
+  --color-border-input: var(--vt-c-green);
+  --color-border-input-focus: var(--vt-c-green-soft);
+  /* --color-border-input: var(--vt-c-green);
+  --color-border-input-soft: var(--vt-c-green-soft);
+  --color-border-input-mute: var(--vt-c-green-mute); */
+  --color-background: var(--vt-c-black);
+  --color-background-soft: var(--vt-c-black-soft);
+  --color-background-mute: var(--vt-c-black-mute);
+
+  --color-border: var(--vt-c-divider-dark-2);
+  --color-border-hover: var(--vt-c-divider-dark-1);
+
+  --color-heading: var(--vt-c-text-dark-1);
+  --color-text: var(--vt-c-text-dark-2);
 }
 
 *,

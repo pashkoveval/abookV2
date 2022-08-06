@@ -1,5 +1,6 @@
 import { initializeApp, getApp } from 'firebase/app';
 import { reactive } from 'vue';
+import { v4 as genId } from 'uuid';
 import {
 	getStorage,
 	ref,
@@ -123,7 +124,7 @@ const uploadFyles = async (file) => {
 		const metadata = {
 			contentType: file.type,
 		};
-		const storageRef = ref(storage, 'images/' + file.name);
+		const storageRef = ref(storage, 'images/' + genId());
 		const uploadTask = await uploadBytesResumable(storageRef, file, metadata);
 		if (uploadTask) {
 			const url = await getDownloadURL(storageRef).then((downloadURL) => {
