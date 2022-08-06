@@ -1,7 +1,14 @@
 import { initializeApp, getApp } from 'firebase/app';
 import { reactive } from 'vue';
+import {
+	getStorage,
+	ref,
+	uploadBytes,
+	getDownloadURL,
+	getMetadata,
+	uploadBytesResumable,
+} from 'firebase/storage';
 import { errorMessage } from '@/helpers';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
 
 import {
 	getFirestore,
@@ -17,36 +24,53 @@ import {
 	getAuth,
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
+	updateProfile,
 } from 'firebase/auth';
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyD-kNe61YF4Nn-Z8UUz2vzraM_fQkYJzok',
-	authDomain: 'abook-4b16d.firebaseapp.com',
-	projectId: 'abook-4b16d',
-	storageBucket: 'abook-4b16d.appspot.com',
-	messagingSenderId: '952811576008',
-	appId: '1:952811576008:web:d85dd35a526115cc9ce3fd',
-	measurementId: 'G-LSDXEBTYHN',
+	apiKey: 'AIzaSyByTrKd_jicAqmzaQSSBKikrFCE0zwcNLo',
+	authDomain: 'abook-5131e.firebaseapp.com',
+	projectId: 'abook-5131e',
+	storageBucket: 'abook-5131e.appspot.com',
+	messagingSenderId: '951286490820',
+	appId: '1:951286490820:web:de5975f6017c59db228b91',
+	measurementId: 'G-4DQQMLSLV8',
 };
 
 const fb = initializeApp(firebaseConfig);
 const db = getFirestore(fb);
 const auth = getAuth();
 const firebaseApp = getApp();
-const storage = getStorage(firebaseApp, 'gs://abook-4b16d.appspot.com/');
-const imagesRef = ref(storage, 'img');
+const storage = getStorage(firebaseApp);
 
-const login = async (email, password, flag) => {
-	if (flag) {
-		return await createUserWithEmailAndPassword(auth, email, password)
-			.then((userCredential) => {
-				const user = userCredential.user;
-				console.log('create user', user);
-				return user;
-			})
-			.catch((error) => {
-				errorMessage(error);
-			});
+const getURL = async (pathImg) => {
+	return await getDownloadURL(ref(storage, pathImg))
+		.then((url) => {
+			console.log('url', url);
+			return url;
+		})
+		.catch((error) => {
+			errorMessage(error);
+		});
+};
+
+const getRefFunc = (pathImg = 'img') => {
+	return ref(storage, pathImg);
+};
+
+const login = async (email, password, createUser) => {
+	if (createUser) {
+		if (email && password) {
+			return await createUserWithEmailAndPassword(auth, email, password)
+				.then((userCredential) => {
+					const user = userCredential.user;
+					console.log('create user', user);
+					return user;
+				})
+				.catch((error) => {
+					errorMessage(error);
+				});
+		}
 	} else {
 		return await signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
@@ -60,14 +84,33 @@ const login = async (email, password, flag) => {
 	}
 };
 
+const updateUserProfile = async (auth, user) => {
+	const displayName = user.displayName;
+	const email = user.email;
+	const photoURL = user.photoURL;
+	return await updateProfile(auth.currentUser, {
+		displayName,
+		email,
+		photoURL,
+	})
+		.then((userProfile) => {
+			const userProfileUpdate = userProfile.user;
+			console.log('updateUserProfile login user', userProfileUpdate);
+			return userProfileUpdate;
+		})
+		.catch((error) => {
+			console.error('Error update user profile: ', error);
+		});
+};
+
 const addElement = async (collectionMame, item) => {
 	try {
 		const docRef = await addDoc(collection(db, collectionMame), item);
 		console.log('Document written with ID: ', docRef.id);
 		console.log('docRef', docRef);
 		return docRef;
-	} catch (e) {
-		console.error('Error adding document: ', e);
+	} catch (error) {
+		console.error('Error adding document: ', error);
 	}
 };
 
@@ -76,10 +119,19 @@ const setElement = async (element, item) => {
 };
 
 const uploadFyles = async (file) => {
-	return await uploadBytes(storage, file).then((snapshot) => {
-		console.log('Uploaded a blob or file!', snapshot);
-		return snapshot;
-	});
+	if (file) {
+		const metadata = {
+			contentType: file.type,
+		};
+		const storageRef = ref(storage, 'images/' + file.name);
+		const uploadTask = await uploadBytesResumable(storageRef, file, metadata);
+		if (uploadTask) {
+			const url = await getDownloadURL(storageRef).then((downloadURL) => {
+				return downloadURL;
+			});
+			return url;
+		}
+	}
 };
 
 const getStore = async (name) => {
@@ -99,10 +151,12 @@ export const firebaseState = reactive({
 	db,
 	auth,
 	login,
+	getURL,
 	storage,
 	getStore,
-	imagesRef,
+	getRefFunc,
 	setElement,
 	addElement,
 	uploadFyles,
+	updateUserProfile,
 });
