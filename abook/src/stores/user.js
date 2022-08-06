@@ -40,17 +40,27 @@ export const useUserStore = defineStore({
 			});
 		},
 		pushNewAvatars(avatar) {
-			this.dropsSelect();
-			this.avatars.push(avatar);
-			this.userData.avatarsArr.push(avatar);
-			this.userData.photoURL = avatar.src;
+			if (avatar) {
+				this.dropsSelect();
+				this.avatars.push(avatar);
+				this.userData.avatarsArr.push(avatar);
+				this.userData.photoURL = avatar.src;
+			} else {
+				this.setDifolteAvatar();
+			}
 		},
 		setActiveAvatar(idx) {
 			if (idx !== -1 && !this.avatars[idx].select) {
 				this.dropsSelect();
 				this.avatars[idx].select = true;
 				this.userData.photoURL = this.avatars[idx].src;
+			} else {
+				this.setDifolteAvatar();
 			}
+		},
+		setDifolteAvatar() {
+			this.avatars[1].select = true;
+			this.userData.photoURL = this.avatars[1].src;
 		},
 	},
 });

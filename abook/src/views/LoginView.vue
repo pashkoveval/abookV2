@@ -1,11 +1,13 @@
 <script setup>
 	import { useUserStore } from '@/stores/user';
+	import InputField from '@/components/InputField/InputField.vue';
 	import SelectAvatars from '../components/SelectAvatars/SelectAvatars.vue';
 	import { firebaseState } from '@/fb';
 	import { reactive } from 'vue';
 
 	const user = useUserStore();
 	const form = reactive({
+		test: null,
 		email: null,
 		avatar: null,
 		lastName: null,
@@ -13,6 +15,7 @@
 		password: null,
 		passwordConfirm: null,
 	});
+
 	const loginIn = async () => {
 		console.log('imagesRef', firebaseState.imagesRef);
 		const user = await firebaseState.login(form.email, form.password, true);
@@ -30,21 +33,24 @@
 	};
 
 	const sendAvatar = async (e) => {
-		const res = await firebaseState.uploadFyles(e.target.files[0]);
-		form.avatar = res;
-		user.pushNewAvatars({
-			select: true,
-			src: res,
-			alt: user.userData.fio || 'userAvatar',
-		});
+		if (e.target.files[0]) {
+			const res = await firebaseState.uploadFyles(e.target.files[0]);
+			form.avatar = res;
+			user.pushNewAvatars({
+				select: true,
+				src: res,
+				alt: user.userData.fio || 'userAvatar',
+			});
+		}
 	};
 
 	firebaseState.getStore('users');
 </script>
 
 <template>
-	<div class="login">
-		<SelectAvatars title="Выбрать ваватар" />
+	<div class="login-view">
+		<InputField v-model="form.test" :search="true" :clear="true" />
+		<SelectAvatars />
 
 		<form @submit.prevent="loginIn">
 			<label>
@@ -71,7 +77,9 @@
 </template>
 
 <style lang="scss" scoped>
-	.login {
-		position: relative;
+	.login-view {
+		// position: relative;
+		// overflow: hidden;
+		padding: 8px;
 	}
 </style>

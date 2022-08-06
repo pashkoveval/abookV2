@@ -13,6 +13,7 @@
 <template>
 	<div class="select-avatar">
 		<DropDownMenuVue
+			:title="props.title"
 			:img="{ src: user.userData.photoURL, alt: user.userData.fio }"
 		>
 			<div class="avatars">
@@ -27,7 +28,7 @@
 					<img
 						class="select"
 						v-if="item.select"
-						src="@/assets/icon-done.png"
+						src="@/assets/icons/icon-done.png"
 						:alt="item.alt || 'Аватар'"
 					/>
 				</div>
@@ -35,7 +36,7 @@
 				<label>
 					<img
 						class="addAvatar"
-						src="@/assets/icon-add-freand.png"
+						src="@/assets/icons/icon-add-freand.png"
 						alt="Добавить аватар"
 					/>
 					<input type="file" class="input-avatar" @input="sendAvatar" />

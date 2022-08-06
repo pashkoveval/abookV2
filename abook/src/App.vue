@@ -9,8 +9,8 @@
 
 <template>
 	<button @click="toggleDark()" class="mode">
-		<img v-if="isDark" src="@/assets/icon-lite.png" alt="Цветовая тема" />
-		<img v-else src="@/assets/icon-dark.png" alt="Цветовая тема" />
+		<img v-if="isDark" src="@/assets/icons/icon-lite.png" alt="Цветовая тема" />
+		<img v-else src="@/assets/icons/icon-dark.png" alt="Цветовая тема" />
 	</button>
 	<header>
 		<img
