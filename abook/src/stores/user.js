@@ -31,9 +31,12 @@ export const useUserStore = defineStore({
 		},
 	}),
 	getters: {
-		activeAvatar: (state) => state.avatars.find((el) => el.select),
+		activeAvatar: (state) => actions.setFio(state),
 	},
 	actions: {
+		setFio() {
+			this.userData.fio = `${this.userData.firstName} ${this.userData.lastName}`;
+		},
 		dropsSelect() {
 			this.avatars.forEach((el) => {
 				el.select = false;

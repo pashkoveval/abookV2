@@ -1,17 +1,9 @@
 <script setup>
 	import { RouterLink, RouterView } from 'vue-router';
 	import HelloWorld from './components/HelloWorld.vue';
-	import { useDark, useToggle } from '@vueuse/core';
-
-	const isDark = useDark();
-	const toggleDark = useToggle(isDark);
 </script>
 
 <template>
-	<button @click="toggleDark()" class="mode">
-		<img v-if="isDark" src="@/assets/icons/icon-lite.png" alt="Цветовая тема" />
-		<img v-else src="@/assets/icons/icon-dark.png" alt="Цветовая тема" />
-	</button>
 	<header>
 		<img
 			alt="Vue logo"

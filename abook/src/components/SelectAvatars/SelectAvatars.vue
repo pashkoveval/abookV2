@@ -1,6 +1,7 @@
 <script setup>
 	import DropDownMenuVue from '@/components/DropDownMenu/DropDownMenu.vue';
 	import { useUserStore } from '@/stores/user';
+	import { firebaseState } from '@/fb';
 
 	const props = defineProps({
 		title: {
@@ -8,6 +9,17 @@
 		},
 	});
 	const user = useUserStore();
+
+	const sendAvatar = async (e) => {
+		if (e.target.files[0]) {
+			const res = await firebaseState.uploadFyles(e.target.files[0]);
+			user.pushNewAvatars({
+				select: true,
+				src: res,
+				alt: user.userData.fio,
+			});
+		}
+	};
 </script>
 
 <template>
@@ -33,7 +45,7 @@
 					/>
 				</div>
 
-				<label>
+				<label class="btn">
 					<img
 						class="addAvatar"
 						src="@/assets/icons/icon-add-freand.png"
@@ -48,20 +60,46 @@
 
 <style lang="scss" scoped>
 	.select-avatar {
-		width: fit-content;
+		margin: 4px;
+		display: flex;
+		justify-content: flex-end;
+		overflow: hidden;
+		flex: 1;
 	}
 	.avatars {
 		display: flex;
+		position: relative;
 		&-item {
 			position: relative;
 		}
+		.input-avatar {
+			position: absolute;
+			top: -9000px;
+			visibility: hidden;
+		}
 	}
 	.avatar {
-		max-width: 40px;
-		max-height: 40px;
+		width: 40px;
+		height: 40px;
 		opacity: 0.5;
 		cursor: pointer;
-		margin: 0 3px;
+		margin: 3px;
+		border-radius: 50%;
+		display: block;
+	}
+	.addAvatar {
+		border-radius: 50%;
+		width: 35px;
+		height: 35px;
+		border: 2px solid var(--color-border-input-focus);
+		padding: 2px;
+	}
+	.btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: auto;
+		margin-left: 10px;
 	}
 	.select {
 		position: absolute;

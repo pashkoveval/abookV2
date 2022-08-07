@@ -1,5 +1,5 @@
 <script setup>
-	import { ref } from 'vue';
+	import { ref, watch } from 'vue';
 	import { onClickOutside } from '@vueuse/core';
 
 	const props = defineProps({
@@ -54,7 +54,7 @@
 <style lang="scss" scoped>
 	.menu {
 		border: 1px solid var(--color-border-input);
-		padding: 8px;
+		padding: 4px;
 		height: auto;
 		border-radius: var(--border-radius);
 		transition: var(--transition);
@@ -81,11 +81,9 @@
 		}
 	}
 	.avatar {
-		width: 60px;
-		height: 60px;
-		padding: 5px;
+		width: 80px;
+		height: 80px;
 		border-radius: 50%;
-		object-fit: contain;
 		display: block;
 	}
 

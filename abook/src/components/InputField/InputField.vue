@@ -79,10 +79,10 @@
 		}
 	}
 
-	@media (min-width: 300px) {
+	@media (max-width: 600px) {
 		.field {
 			&-wrapper {
-				margin: 2px;
+				margin: 6px 4px;
 			}
 			&-input {
 				&.clear {
