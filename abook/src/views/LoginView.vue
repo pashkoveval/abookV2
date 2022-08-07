@@ -2,33 +2,40 @@
 	import { useUserStore } from '@/stores/user';
 	import InputField from '@/components/InputField/InputField.vue';
 	import SelectAvatars from '../components/SelectAvatars/SelectAvatars.vue';
+	import { firebaseState } from '@/fb';
+	import { watch } from 'vue';
 
 	const user = useUserStore();
+
+	watch(
+		() => user.userData,
+		(value) => {
+			console.log('value', value);
+
+			// validate(value);
+		},
+		{ deep: true }
+	);
 
 	const loginIn = async () => {
 		console.log('user', user.userData);
 		// const user = await firebaseState.login(form.email, form.password, true);
-		// const userForm = form;
-		// console.log('liginIn userForm', userForm);
-		// console.log('liginIn user', user);
-		// userForm.accessToken = user.accessToken;
-		// userForm.emailVerified = user.emailVerified;
-		// userForm.metadata = user.metadata;
-		// userForm.phoneNumber = user.phoneNumber;
-		// userForm.photoURL = user.photoURL;
-		// userForm.uid = user.uid;
+		// user.userData.accessToken = user.accessToken;
+		// user.userData.emailVerified = user.emailVerified;
+		// user.userData.metadata = user.metadata;
+		// user.userData.phoneNumber = user.phoneNumber;
+		// user.userData.photoURL = user.photoURL;
+		// user.userData.uid = user.uid;
 		// const userCreates = await firebaseState.addElement('users', userForm);
 		// console.log('liginIn userCreates', userCreates);
 	};
 
-	// firebaseState.getStore('users');
+	firebaseState.getStore('users');
 </script>
 
 <template>
 	<div class="login-view">
 		<SelectAvatars />
-
-		<!-- {{ user.userData }} -->
 
 		<InputField
 			v-model="user.userData.email"

@@ -8,3 +8,14 @@ export const errorMessage = (error) => {
 	console.error(err);
 	return err;
 };
+
+export const validate = (userData) => {
+	const errorCode = error.code;
+	const errorMessage = error.message;
+	const err = {
+		errorCode,
+		errorMessage,
+	};
+	console.error(err);
+	return err;
+};
