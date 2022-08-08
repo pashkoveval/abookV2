@@ -1,6 +1,7 @@
 <script setup>
-	import { ref, watch } from 'vue';
+	import { ref } from 'vue';
 	import { onClickOutside } from '@vueuse/core';
+	const emit = defineEmits(['open', 'close']);
 
 	const props = defineProps({
 		title: {
@@ -21,15 +22,29 @@
 	const modalRef = ref(null);
 
 	onClickOutside(modalRef, () => {
-		modal.value = false;
+		if (modal.value) {
+			emit('close', false);
+			modal.value = false;
+		}
 	});
+	const openMenu = () => {
+		if (!modal.value) {
+			emit('open', true);
+			modal.value = true;
+		}
+	};
 </script>
 
 <template>
-	<div class="menu">
+	<div
+		class="menu"
+		:class="{
+			open: modal,
+		}"
+	>
 		<div
 			class="menu-header"
-			@click="modal = true"
+			@click="openMenu"
 			:class="{
 				center:
 					(props.title && !props.img.src) || (!props.title && props.img.src),
@@ -41,13 +56,14 @@
 				class="avatar"
 				:src="props.img.src"
 				:alt="props.img.alt || 'image'"
+				loading="lazy"
 			/>
 		</div>
-		<Transition name="fade">
-			<div v-if="modal" ref="modalRef" class="menu-drop_down">
-				<slot></slot>
-			</div>
-		</Transition>
+		<!-- <Transition name="fade"> -->
+		<div v-if="modal" ref="modalRef" class="menu-drop_down">
+			<slot></slot>
+		</div>
+		<!-- </Transition> -->
 	</div>
 </template>
 
@@ -58,7 +74,10 @@
 		height: auto;
 		border-radius: var(--border-radius);
 		transition: var(--transition);
-		background-color: var(--color-background-green);
+		height: fit-content;
+		&.open {
+			background-color: var(--color-background-green);
+		}
 		&-header {
 			cursor: pointer;
 			display: flex;
@@ -74,7 +93,6 @@
 				flex: 1;
 			}
 		}
-		transition: 1s ease;
 		&-drop_down {
 			border-top: 1px solid var(--color-border-input);
 			padding-top: 8px;

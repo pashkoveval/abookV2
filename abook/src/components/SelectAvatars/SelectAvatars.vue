@@ -2,6 +2,7 @@
 	import DropDownMenuVue from '@/components/DropDownMenu/DropDownMenu.vue';
 	import { useUserStore } from '@/stores/user';
 	import { firebaseState } from '@/fb';
+	import { ref } from 'vue';
 
 	const props = defineProps({
 		title: {
@@ -20,6 +21,11 @@
 			});
 		}
 	};
+
+	const modal = ref(false);
+	const toggleMenu = (open) => {
+		modal.value = open;
+	};
 </script>
 
 <template>
@@ -27,20 +33,24 @@
 		<DropDownMenuVue
 			:title="props.title"
 			:img="{ src: user.userData.photoURL, alt: user.userData.fio }"
+			@open="toggleMenu"
+			@close="toggleMenu"
 		>
-			<div class="avatars">
+			<div class="avatars" :class="{ open: modal }">
 				<div v-for="(item, idx) in user.avatars" class="avatars-item">
 					<img
 						class="avatar"
 						v-if="item.src"
 						:src="item.src"
 						:alt="item.alt || 'Аватар'"
+						loading="lazy"
 						@click="user.setActiveAvatar(idx)"
 					/>
 					<img
 						class="select"
 						v-if="item.select"
 						src="@/assets/icons/icon-done.png"
+						loading="lazy"
 						:alt="item.alt || 'Аватар'"
 					/>
 				</div>
@@ -50,6 +60,7 @@
 						class="addAvatar"
 						src="@/assets/icons/icon-add-freand.png"
 						alt="Добавить аватар"
+						loading="lazy"
 					/>
 					<input type="file" class="input-avatar" @input="sendAvatar" />
 				</label>
@@ -69,6 +80,13 @@
 	.avatars {
 		display: flex;
 		position: relative;
+		width: 0;
+		height: 0;
+		transition: var(--transition);
+		&.open {
+			width: fit-content;
+			height: auto;
+		}
 		&-item {
 			position: relative;
 		}

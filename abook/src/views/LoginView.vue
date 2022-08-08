@@ -11,8 +11,6 @@
 		() => user.userData,
 		(value) => {
 			console.log('value', value);
-
-			// validate(value);
 		},
 		{ deep: true }
 	);
@@ -41,6 +39,7 @@
 			v-model="user.userData.email"
 			type="email"
 			placeholder="Email"
+			:required="true"
 			:clear="true"
 		/>
 
@@ -109,8 +108,7 @@
 
 <style lang="scss" scoped>
 	.login-view {
-		// position: relative;
-		// overflow: hidden;
+		transition: all var(--transition);
 		padding: 8px;
 		text-align: right;
 	}

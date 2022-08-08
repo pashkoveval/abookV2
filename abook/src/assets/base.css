@@ -7,6 +7,9 @@
   --vt-c-green: rgba(0, 189, 126, 0.2);
   --vt-c-green-soft: rgb(0, 189, 126);
   --vt-c-green-mute: rgb(2, 126, 84);
+  --vt-c-error: rgba(189, 0, 0, 0.2);
+  --vt-c-error-soft: rgb(244, 127, 127);
+  --vt-c-error-mute: rgb(189, 0, 0);
   --vt-c-white-soft: #f8f8f8;
   --vt-c-white-mute: #f2f2f2;
   --vt-c-black: #181818;
@@ -30,8 +33,10 @@
 :root {
   --color-border-input: var(--vt-c-green-mute);
   --color-border-input-focus: var(--vt-c-green-soft);
+  --color-border-input-error: var(--vt-c-error);
   --color-background: var(--vt-c-white);
   --color-background-green: var(--vt-c-green);
+  --color-background-error: var(--vt-c-error);
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
 
@@ -48,11 +53,13 @@
   :root {
     --color-white: var(--vt-c-white);
     --color-border-input: var(--vt-c-green);
+    --color-border-input-error: var(--vt-c-error-soft);
     --color-border-input-focus: var(--vt-c-green-soft);
     /* --color-border-input: var(--vt-c-green);
     --color-border-input-soft: var(--vt-c-green-soft);
     --color-border-input-mute: var(--vt-c-green-mute); */
     --color-background: var(--vt-c-black);
+    --color-background-error: var(--vt-c-error);
     --color-background-soft: var(--vt-c-black-soft);
     --color-background-mute: var(--vt-c-black-mute);
 

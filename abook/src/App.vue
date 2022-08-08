@@ -11,6 +11,7 @@
 			src="@/assets/logo.svg"
 			width="125"
 			height="125"
+			loading="lazy"
 		/>
 
 		<div class="wrapper">
