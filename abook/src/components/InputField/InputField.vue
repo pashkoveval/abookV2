@@ -1,6 +1,7 @@
 <script setup>
 	import { ref, computed } from 'vue';
 	import Tooltip from '@/components/Tooltip/Tooltip.vue';
+	import Icon from '@/components/Icon/Icon.vue';
 	import {
 		tryToConvertStringToNumber,
 		getFilteredValue,
@@ -91,13 +92,8 @@
 		:class="{ required: required, valid: !errorProp }"
 		@click.stop="setFocus"
 	>
-		<img
-			v-if="search"
-			src="@/assets/icons/icon-search.png"
-			alt="Очистить поле"
-			class="field-search"
-			loading="lazy"
-		/>
+		<Icon v-if="search" icon="search1" class="field-search" />
+
 		<input
 			:value="prop.modelValue"
 			:type="prop.type"
@@ -120,42 +116,25 @@
 			@focus="focusFunction"
 			@blur="blurFunction"
 		/>
+
 		<Tooltip
-			v-if="errorProp?.typeError === 'warn'"
+			v-if="errorProp?.typeError"
 			:text="errorProp?.massage"
 			position="left"
 			class="field-alarm"
+			:class="{ [errorProp?.typeError]: errorProp?.typeError }"
 			:error="true"
 		>
-			<img
-				src="@/assets/icons/icon-alarm.png"
-				alt="Очистить поле"
-				width="20"
-				height="20"
-				loading="lazy"
+			<Icon
+				:icon="errorProp?.typeError === 'warn' ? 'smile7' : 'smile'"
+				size="20"
 			/>
 		</Tooltip>
-		<Tooltip
-			v-if="errorProp?.typeError === 'error'"
-			:text="errorProp?.massage"
-			position="left"
-			class="field-alarm"
-			:error="true"
-		>
-			<img
-				src="@/assets/icons/icon-error.png"
-				alt="Очистить поле"
-				width="20"
-				height="20"
-				loading="lazy"
-			/>
-		</Tooltip>
-		<img
-			v-if="prop.clear"
-			src="@/assets/icons/icon-close.png"
-			alt="Очистить поле"
-			class="field-clear"
-			loading="lazy"
+
+		<Icon
+			icon="clear"
+			class="field-clear btn"
+			size="20"
 			@click="emit('update:modelValue', null)"
 		/>
 	</div>
@@ -257,7 +236,7 @@
 			top: 50%;
 			left: 10px;
 			transform: translateY(-50%);
-			z-index: 0;
+			z-index: 1;
 			min-width: 10px;
 			max-width: 20px;
 			min-height: 10px;

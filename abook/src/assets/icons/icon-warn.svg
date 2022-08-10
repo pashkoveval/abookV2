@@ -1,7 +1,0 @@
-<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="icon-warn">
-<path id="Polygon 1" d="M150.866 11.5L270.378 218.5C270.762 219.167 270.281 220 269.512 220H30.4885C29.7187 220 29.2376 219.167 29.6225 218.5L149.134 11.5C149.519 10.8333 150.481 10.8333 150.866 11.5Z" stroke="#FFEB3A" stroke-width="10"/>
-<ellipse id="Ellipse 1" cx="150.5" cy="112" rx="11.5" ry="58" fill="#FFEB3A"/>
-<ellipse id="Ellipse 2" cx="150.5" cy="195" rx="9.5" ry="8" fill="#FFEB3A"/>
-</g>
-</svg>

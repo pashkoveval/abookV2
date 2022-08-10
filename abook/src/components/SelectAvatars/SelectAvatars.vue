@@ -1,6 +1,8 @@
 <script setup>
 	import DropDownMenuVue from '@/components/DropDownMenu/DropDownMenu.vue';
 	import Tooltip from '@/components/Tooltip/Tooltip.vue';
+	import Icon from '@/components/Icon/Icon.vue';
+
 	import { useUserStore } from '@/stores/user';
 	import { firebaseState } from '@/fb';
 	import { ref } from 'vue';
@@ -58,12 +60,7 @@
 
 				<label class="btn">
 					<Tooltip text="Выбрать аватар" position="left">
-						<img
-							class="addAvatar"
-							src="@/assets/icons/icon-addAvatar.png"
-							alt="Добавить аватар"
-							loading="lazy"
-						/>
+						<Icon icon="user" class="field-clear btn" size="30" />
 					</Tooltip>
 					<input type="file" class="input-avatar" @input="sendAvatar" />
 				</label>

@@ -1,4 +1,6 @@
 <script setup>
+	import { icons } from '@/helpers/icons';
+
 	import { useUserStore } from '@/stores/user';
 	import { useErrorsStore } from '@/stores/errors';
 	import { firebaseState } from '@/fb';
@@ -51,10 +53,19 @@
 	};
 
 	firebaseState.getStore('users');
+	const allIcons = ref(Object.values(icons));
 </script>
 
 <template>
 	<div class="login-view">
+		<div class="icons">
+			<div
+				v-for="i in allIcons"
+				:key="i"
+				v-html="i"
+				:style="{ width: '26px' }"
+			></div>
+		</div>
 		<SelectAvatars />
 
 		<InputField
@@ -125,18 +136,23 @@
 		>
 			Создать
 		</Button>
+
 		<Button
 			class="button_custom login-bgt"
 			:loading="loading.value"
-			icon="close"
+			text="Войти через Google"
+			icon="google"
+			size="50"
 			@click="loginInPopup"
-		>
-			<span>Войти через</span>
-		</Button>
+		/>
 	</div>
 </template>
 
 <style lang="scss" scoped>
+	.icons {
+		display: flex;
+		flex-wrap: wrap;
+	}
 	.login-view {
 		transition: all var(--transition);
 		padding: 8px;

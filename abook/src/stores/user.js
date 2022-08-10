@@ -62,8 +62,6 @@ export const useUserStore = defineStore({
 				this.dropsSelect();
 				this.avatars[idx].select = true;
 				this.userData.photoURL = this.avatars[idx].src;
-			} else {
-				this.setDifolteAvatar();
 			}
 		},
 		setDifolteAvatar() {

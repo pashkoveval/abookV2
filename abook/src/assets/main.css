@@ -79,12 +79,3 @@ input:focus {
     padding: 0 1rem;
   }
 }
-
-.icon_fill path,
-.icon_fill line,
-.icon_fill circle,
-.icon_fill polyline,
-.icon_fill svg {
-  /* fill: var(--vt-c-green-soft) !important; */
-  stroke: var(--vt-c-green-soft) !important;
-}

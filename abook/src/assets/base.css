@@ -7,6 +7,9 @@
   --vt-c-green: rgba(0, 189, 126, 0.2);
   --vt-c-green-soft: #00bd7e;
   --vt-c-green-mute: rgb(2, 126, 84);
+  --vt-c-warn: rgb(242, 255, 0);
+  --vt-c-warn-soft: rgb(223, 231, 0);
+  --vt-c-warn-mute: rgb(155, 160, 59);
   --vt-c-error: rgba(189, 0, 0, 0.2);
   --vt-c-error-soft: rgb(244, 127, 127);
   --vt-c-error-mute: rgb(189, 0, 0);

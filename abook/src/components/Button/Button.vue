@@ -1,10 +1,15 @@
 <template>
-	<button class="button_custom" :disabled="prop.disabled">
-		<span>
-			<slot>{{ prop.title }}</slot>
-		</span>
-		<Icon class="button_custom-icon" :icon="prop.icon" />
-		<Loader class="button_custom-loader" />
+	<button class="button_custom btn" :disabled="prop.disabled">
+		<div class="button_custom-text">
+			<slot>{{ prop.text }}</slot>
+		</div>
+		<Icon
+			v-if="prop.icon"
+			class="button_custom-icon"
+			:icon="prop.icon"
+			:size="size"
+		/>
+		<Loader v-if="prop.loading" class="button_custom-loader" />
 	</button>
 </template>
 
@@ -12,7 +17,7 @@
 	import Loader from '@/components/Loader/Loader.vue';
 	import Icon from '@/components/Icon/Icon.vue';
 
-	const prop = defineProps(['title', 'loading', 'disabled', 'icon']);
+	const prop = defineProps(['text', 'loading', 'disabled', 'icon', 'size']);
 </script>
 
 <style lang="scss" scoped>
@@ -29,23 +34,19 @@
 		border-radius: var(--border-radius);
 		margin: 6px;
 		color: var(--color-text);
+		display: flex;
+		align-items: center;
 		cursor: pointer;
 
-		&-loader {
+		&-loader,
+		&-icon {
 			margin-left: 10px;
+		}
+		&-text {
+			padding: 0 8px;
 		}
 	}
 
-	// .button_custom-icon {
-	// 	border-radius: 50%;
-	// 	padding: 0;
-	// 	background-color: transparent;
-	// 	border-color: var(--color-border-input-focus);
-	// 	display: flex;
-	// 	align-items: center;
-	// 	justify-content: center;
-	// 	cursor: pointer;
-	// }
 	.button_custom:hover {
 		border-color: var(--color-border-input-focus);
 		background-color: var(--color-background-green);
