@@ -1,5 +1,6 @@
 <script setup>
 	import DropDownMenuVue from '@/components/DropDownMenu/DropDownMenu.vue';
+	import Tooltip from '@/components/Tooltip/Tooltip.vue';
 	import { useUserStore } from '@/stores/user';
 	import { firebaseState } from '@/fb';
 	import { ref } from 'vue';
@@ -13,16 +14,19 @@
 
 	const sendAvatar = async (e) => {
 		if (e.target.files[0]) {
+			loading.value = true;
 			const res = await firebaseState.uploadFyles(e.target.files[0]);
 			user.pushNewAvatars({
 				select: true,
 				src: res,
 				alt: user.userData.fio,
 			});
+			loading.value = false;
 		}
 	};
 
 	const modal = ref(false);
+	const loading = ref(false);
 	const toggleMenu = (open) => {
 		modal.value = open;
 	};
@@ -33,35 +37,34 @@
 		<DropDownMenuVue
 			:title="props.title"
 			:img="{ src: user.userData.photoURL, alt: user.userData.fio }"
+			:loading="loading"
 			@open="toggleMenu"
 			@close="toggleMenu"
 		>
 			<div class="avatars" :class="{ open: modal }">
-				<div v-for="(item, idx) in user.avatars" class="avatars-item">
-					<img
-						class="avatar"
-						v-if="item.src"
-						:src="item.src"
-						:alt="item.alt || 'Аватар'"
-						loading="lazy"
-						@click="user.setActiveAvatar(idx)"
-					/>
-					<img
-						class="select"
-						v-if="item.select"
-						src="@/assets/icons/icon-done.png"
-						loading="lazy"
-						:alt="item.alt || 'Аватар'"
-					/>
+				<div class="avatars-list">
+					<div v-for="(item, idx) in user.avatars" class="avatars-item">
+						<img
+							v-if="item.src"
+							:src="item.src"
+							:alt="item.alt || 'Аватар'"
+							class="avatar"
+							:class="{ select: item.select }"
+							loading="lazy"
+							@click="user.setActiveAvatar(idx)"
+						/>
+					</div>
 				</div>
 
 				<label class="btn">
-					<img
-						class="addAvatar"
-						src="@/assets/icons/icon-add-freand.png"
-						alt="Добавить аватар"
-						loading="lazy"
-					/>
+					<Tooltip text="Выбрать аватар" position="left">
+						<img
+							class="addAvatar"
+							src="@/assets/icons/icon-addAvatar.png"
+							alt="Добавить аватар"
+							loading="lazy"
+						/>
+					</Tooltip>
 					<input type="file" class="input-avatar" @input="sendAvatar" />
 				</label>
 			</div>
@@ -83,8 +86,19 @@
 		width: 0;
 		height: 0;
 		transition: var(--transition);
+		align-items: center;
+		&-list {
+			display: flex;
+			max-width: 100%;
+			height: 100%;
+			padding-top: 5px;
+			padding-right: 5px;
+			overflow-x: scroll;
+			overflow-y: hidden;
+		}
 		&.open {
-			width: fit-content;
+			width: 100%;
+			max-width: 45vw;
 			height: auto;
 		}
 		&-item {
@@ -97,6 +111,7 @@
 		}
 	}
 	.avatar {
+		transition: var(--transition);
 		width: 40px;
 		height: 40px;
 		opacity: 0.5;
@@ -104,13 +119,26 @@
 		margin: 3px;
 		border-radius: 50%;
 		display: block;
+		&:hover {
+			opacity: 0.7;
+			transform: scale(1.1);
+		}
+		&.select {
+			opacity: 1;
+		}
 	}
 	.addAvatar {
-		border-radius: 50%;
-		width: 35px;
-		height: 35px;
-		border: 2px solid var(--color-border-input-focus);
-		padding: 2px;
+		transition: var(--transition);
+		width: 30px;
+		height: 30px;
+		margin-top: 7px;
+		cursor: pointer;
+		&:active {
+			transform: scale(1.1);
+		}
+		&:hover {
+			transform: scale(1.1);
+		}
 	}
 	.btn {
 		display: flex;
@@ -118,12 +146,5 @@
 		justify-content: center;
 		height: auto;
 		margin-left: 10px;
-	}
-	.select {
-		position: absolute;
-		top: -5px;
-		right: -3px;
-		width: 15px;
-		height: 15px;
 	}
 </style>

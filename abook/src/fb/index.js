@@ -4,12 +4,10 @@ import { v4 as genId } from 'uuid';
 import {
 	getStorage,
 	ref,
-	uploadBytes,
 	getDownloadURL,
-	getMetadata,
 	uploadBytesResumable,
 } from 'firebase/storage';
-import { errorMessage } from '@/helpers';
+import { errorMessage } from '@/helpers/index';
 
 import {
 	getFirestore,
@@ -26,6 +24,8 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	updateProfile,
+	signInWithPopup,
+	GoogleAuthProvider,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -43,11 +43,11 @@ const db = getFirestore(fb);
 const auth = getAuth();
 const firebaseApp = getApp();
 const storage = getStorage(firebaseApp);
+const provider = new GoogleAuthProvider();
 
 const getURL = async (pathImg) => {
 	return await getDownloadURL(ref(storage, pathImg))
 		.then((url) => {
-			console.log('url', url);
 			return url;
 		})
 		.catch((error) => {
@@ -58,6 +58,29 @@ const getURL = async (pathImg) => {
 const getRefFunc = (pathImg = 'img') => {
 	return ref(storage, pathImg);
 };
+const btnLogin = async () => {
+	return await signInWithPopup(auth, provider)
+		.then((result) => {
+			// This gives you a Google Access Token. You can use it to access the Google API.
+			const credential = GoogleAuthProvider.credentialFromResult(result);
+			const token = credential.accessToken;
+			// The signed-in user info.
+			const user = result.user;
+			return { token, user };
+			// ...
+		})
+		.catch((error) => {
+			// Handle Errors here.
+			const errorCode = error.code;
+			const errorMessage = error.message;
+			// The email of the user's account used.
+			const email = error.customData.email;
+			// The AuthCredential type that was used.
+			const credential = GoogleAuthProvider.credentialFromError(error);
+			console.error({ errorCode, errorMessage, email, credential });
+			// ...
+		});
+};
 
 const login = async (email, password, createUser) => {
 	if (createUser) {
@@ -65,7 +88,6 @@ const login = async (email, password, createUser) => {
 			return await createUserWithEmailAndPassword(auth, email, password)
 				.then((userCredential) => {
 					const user = userCredential.user;
-					console.log('create user', user);
 					return user;
 				})
 				.catch((error) => {
@@ -76,7 +98,6 @@ const login = async (email, password, createUser) => {
 		return await signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
 				const user = userCredential.user;
-				console.log('login user', user);
 				return user;
 			})
 			.catch((error) => {
@@ -96,7 +117,6 @@ const updateUserProfile = async (auth, user) => {
 	})
 		.then((userProfile) => {
 			const userProfileUpdate = userProfile.user;
-			console.log('updateUserProfile login user', userProfileUpdate);
 			return userProfileUpdate;
 		})
 		.catch((error) => {
@@ -104,12 +124,14 @@ const updateUserProfile = async (auth, user) => {
 		});
 };
 
-const addElement = async (collectionMame, item) => {
+const addElement = async (name, item) => {
 	try {
-		const docRef = await addDoc(collection(db, collectionMame), item);
-		console.log('Document written with ID: ', docRef.id);
-		console.log('docRef', docRef);
-		return docRef;
+		const docRef = await addDoc(
+			collection(db, name),
+			JSON.parse(JSON.stringify(item))
+		);
+		const user = await getDoc(docRef);
+		return user.data();
 	} catch (error) {
 		console.error('Error adding document: ', error);
 	}
@@ -142,7 +164,7 @@ const getStore = async (name) => {
 		querySnapshot.forEach((doc) => {
 			items.push({ id: doc.id, ...doc.data() });
 		});
-		console.log('Document get: ', items);
+		return items;
 	} catch (e) {
 		console.error('Error adding document: ', e);
 	}
@@ -154,6 +176,7 @@ export const firebaseState = reactive({
 	login,
 	getURL,
 	storage,
+	btnLogin,
 	getStore,
 	getRefFunc,
 	setElement,

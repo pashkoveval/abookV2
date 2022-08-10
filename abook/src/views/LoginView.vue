@@ -1,31 +1,53 @@
 <script setup>
 	import { useUserStore } from '@/stores/user';
-	import InputField from '@/components/InputField/InputField.vue';
-	import SelectAvatars from '../components/SelectAvatars/SelectAvatars.vue';
+	import { useErrorsStore } from '@/stores/errors';
 	import { firebaseState } from '@/fb';
-	import { watch } from 'vue';
+	import { ref, computed } from 'vue';
+	import { isObjext } from '@/helpers/index';
+	import InputField from '@/components/InputField/InputField.vue';
+	import Button from '@/components/Button/Button.vue';
+	import SelectAvatars from '../components/SelectAvatars/SelectAvatars.vue';
 
+	const errorsStore = useErrorsStore();
 	const user = useUserStore();
+	const loading = ref(false);
 
-	watch(
-		() => user.userData,
-		(value) => {
-			console.log('value', value);
-		},
-		{ deep: true }
-	);
+	const errorValidateion = computed(() => {
+		const errors = errorsStore.errors.validation;
+		const values = Object.values(errors);
+		return values.some((el) => isObjext(el)) ? false : true;
+	});
+	const dataValidateion = computed(() => {
+		const { email, password, passwordConfirm } = user.userData;
+		return email && password && passwordConfirm ? true : false;
+	});
 
+	const loginInPopup = async () => {
+		const loginIn = await firebaseState.btnLogin();
+		console.log('loginIn', loginIn);
+	};
 	const loginIn = async () => {
-		console.log('user', user.userData);
-		// const user = await firebaseState.login(form.email, form.password, true);
-		// user.userData.accessToken = user.accessToken;
-		// user.userData.emailVerified = user.emailVerified;
-		// user.userData.metadata = user.metadata;
-		// user.userData.phoneNumber = user.phoneNumber;
-		// user.userData.photoURL = user.photoURL;
-		// user.userData.uid = user.uid;
-		// const userCreates = await firebaseState.addElement('users', userForm);
-		// console.log('liginIn userCreates', userCreates);
+		loading.value = true;
+		const userJustCreated = await firebaseState.login(
+			user.userData.email,
+			user.userData.password,
+			true
+		);
+		if (userJustCreated) {
+			user.userData.accessToken = userJustCreated.accessToken;
+			user.userData.emailVerified = userJustCreated.emailVerified;
+			user.userData.metadata = userJustCreated.metadata;
+			user.userData.uid = userJustCreated.uid;
+			const userCreates = await firebaseState.addElement(
+				'users',
+				user.userData
+			);
+			console.log('userCreates', userCreates);
+			loading.value = false;
+		} else {
+			loading.value = false;
+			user.$reset();
+		}
 	};
 
 	firebaseState.getStore('users');
@@ -41,13 +63,19 @@
 			placeholder="Email"
 			:required="true"
 			:clear="true"
+			:error="errorsStore.errors.validation['email']"
+			:validation="errorsStore.emailErrorCheck"
 		/>
 
 		<InputField
 			v-model="user.userData.phoneNumber"
 			placeholder="Телефон"
 			type="tel"
+			:required="true"
 			:clear="true"
+			:insertValueInFocus="8"
+			:error="errorsStore.errors.validation['tel']"
+			:validation="errorsStore.phoneErrorCheck"
 		/>
 
 		<InputField
@@ -68,41 +96,43 @@
 			v-model="user.userData.password"
 			placeholder="Пароль"
 			type="password"
+			:required="true"
 			:clear="true"
+			:error="errorsStore.errors.validation['password']"
+			:validation="errorsStore.passwordErrorCheck"
 		/>
 
 		<InputField
 			v-model="user.userData.passwordConfirm"
 			placeholder="Подтвердить пароль"
 			type="password"
+			:required="true"
 			:clear="true"
+			:error="errorsStore.errors.validation['passwordConfirm']"
+			@blur="
+				errorsStore.passwordConfirmErrorCheck(
+					user.userData.password,
+					user.userData.passwordConfirm
+				)
+			"
 		/>
 
-		<button class="button_custom" @click="loginIn">
-			<slot>кнопка</slot>
-		</button>
-
-		<!-- <form @submit.prevent="loginIn">
-			<label>
-				<span>Выбрать аватар</span>
-				<input type="file" class="avatar" @input="sendAvatar" />
-			</label>
-			<input v-model="form.firstName" type="string" placeholder="Имя" />
-			<input v-model="form.lastName" type="string" placeholder="Фамилия" />
-			<input v-model="form.email" type="string" placeholder="Email" />
-			<input v-model="form.password" type="password" placeholder="Пароль" />
-			<input
-				v-model="form.passwordConfirm"
-				type="password"
-				placeholder="Подтвердить пароль"
-			/>
-			<input
-				v-model="form.phoneNumber"
-				type="tel"
-				placeholder="Ваш номер телефона"
-			/>
-			<button>LogIn</button>
-		</form> -->
+		<Button
+			v-if="errorValidateion && dataValidateion"
+			class="button_custom"
+			:loading="loading.value"
+			@click="loginIn"
+		>
+			Создать
+		</Button>
+		<Button
+			class="button_custom login-bgt"
+			:loading="loading.value"
+			icon="close"
+			@click="loginInPopup"
+		>
+			<span>Войти через</span>
+		</Button>
 	</div>
 </template>
 
@@ -111,5 +141,10 @@
 		transition: all var(--transition);
 		padding: 8px;
 		text-align: right;
+	}
+	.login-bgt {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 </style>

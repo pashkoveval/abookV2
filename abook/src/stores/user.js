@@ -21,6 +21,7 @@ export const useUserStore = defineStore({
 			lastName: null,
 			firstName: null,
 			password: null,
+			passwordConfirm: null,
 			accessToken: null,
 			emailVerified: null,
 			metadata: null,
@@ -28,14 +29,18 @@ export const useUserStore = defineStore({
 			photoURL: avatar2,
 			uid: null,
 			avatarsArr: [],
+			newUser: true,
 		},
 	}),
-	getters: {
-		activeAvatar: (state) => actions.setFio(state),
-	},
 	actions: {
 		setFio() {
-			this.userData.fio = `${this.userData.firstName} ${this.userData.lastName}`;
+			const fio = `${this.userData.firstName || ''} ${
+				this.userData.lastName || ''
+			}`;
+			this.userData.avatarsArr.forEach((el) => {
+				el.alt = fio;
+			});
+			this.userData.fio = fio;
 		},
 		dropsSelect() {
 			this.avatars.forEach((el) => {

@@ -1,6 +1,8 @@
 <script setup>
 	import { ref } from 'vue';
 	import { onClickOutside } from '@vueuse/core';
+	import Loader from '@/components/Loader/Loader.vue';
+
 	const emit = defineEmits(['open', 'close']);
 
 	const props = defineProps({
@@ -8,6 +10,12 @@
 			type: String,
 			default() {
 				return null;
+			},
+		},
+		loading: {
+			type: Boolean,
+			default() {
+				return false;
 			},
 		},
 		img: {
@@ -51,13 +59,17 @@
 			}"
 		>
 			<div v-if="props.title" class="menu-header-title">{{ props.title }}</div>
-			<img
-				v-if="props.img.src"
-				class="avatar"
-				:src="props.img.src"
-				:alt="props.img.alt || 'image'"
-				loading="lazy"
-			/>
+
+			<div class="avatar">
+				<Loader v-if="props.loading" width="20" height="20" />
+				<img
+					v-else-if="props.img.src"
+					class="avatar"
+					:src="props.img.src"
+					:alt="props.img.alt || 'image'"
+					loading="lazy"
+				/>
+			</div>
 		</div>
 		<!-- <Transition name="fade"> -->
 		<div v-if="modal" ref="modalRef" class="menu-drop_down">
@@ -77,6 +89,9 @@
 		height: fit-content;
 		&.open {
 			background-color: var(--color-background-green);
+			.menu-header {
+				cursor: auto;
+			}
 		}
 		&-header {
 			cursor: pointer;
@@ -103,6 +118,9 @@
 		height: 80px;
 		border-radius: 50%;
 		display: block;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.fade-enter-active,
