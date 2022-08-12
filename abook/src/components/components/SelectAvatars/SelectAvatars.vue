@@ -1,7 +1,7 @@
 <script setup>
-	import DropDownMenuVue from '@/components/DropDownMenu/DropDownMenu.vue';
-	import Tooltip from '@/components/Tooltip/Tooltip.vue';
-	import Icon from '@/components/Icon/Icon.vue';
+	import DropDownMenuVue from '@/components/components/DropDownMenu/DropDownMenu.vue';
+	import Tooltip from '@/components/components/Tooltip/Tooltip.vue';
+	import Icon from '@/components/components/Icon/Icon.vue';
 
 	import { useUserStore } from '@/stores/user';
 	import { firebaseState } from '@/fb';

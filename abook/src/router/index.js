@@ -5,18 +5,28 @@ const router = createRouter({
 	routes: [
 		{
 			path: '/',
+			name: 'welcome',
+			component: () => import('@/components/Moduls/Welcome/Welcome.vue'),
+		},
+		{
+			path: '/login',
 			name: 'login',
-			component: () => import('../views/LoginView.vue'),
+			component: () => import('@/components/Moduls/Welcome/Login/Login.vue'),
+		},
+		{
+			path: '/create',
+			name: 'create',
+			component: () => import('@/components/Moduls/Welcome/Create/Create.vue'),
 		},
 		{
 			path: '/home',
 			name: 'home',
-			component: () => import('../views/HomeView.vue'),
+			component: () => import('@/views/HomeView.vue'),
 		},
 		{
 			path: '/about',
 			name: 'about',
-			component: () => import('../views/AboutView.vue'),
+			component: () => import('@/views/AboutView.vue'),
 		},
 	],
 });

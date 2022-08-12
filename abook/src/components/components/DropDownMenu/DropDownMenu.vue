@@ -1,7 +1,7 @@
 <script setup>
 	import { ref } from 'vue';
 	import { onClickOutside } from '@vueuse/core';
-	import Loader from '@/components/Loader/Loader.vue';
+	import Loader from '@/components/components/Loader/Loader.vue';
 
 	const emit = defineEmits(['open', 'close']);
 
@@ -121,16 +121,5 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-	}
-
-	.fade-enter-active,
-	.fade-leave-active {
-		transition: opacity 0.3s;
-	}
-
-	.fade-enter-from,
-	.fade-leave-to {
-		opacity: 0;
-		width: 100%;
 	}
 </style>

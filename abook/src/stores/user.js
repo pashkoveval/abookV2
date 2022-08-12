@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
-import avatar1 from '@/assets/avatar/man.png';
-import avatar2 from '@/assets/avatar/woman.png';
+import { CONSTANTS } from '@/Constants/Constants';
 
 export const useUserStore = defineStore({
 	id: 'user',
@@ -8,11 +7,19 @@ export const useUserStore = defineStore({
 		avatars: [
 			{
 				select: false,
-				src: avatar1,
+				src: CONSTANTS.DEFAULT_AVATARS.WOMAN1,
 			},
 			{
 				select: true,
-				src: avatar2,
+				src: CONSTANTS.DEFAULT_AVATARS.WOMAN2,
+			},
+			{
+				select: false,
+				src: CONSTANTS.DEFAULT_AVATARS.MAN1,
+			},
+			{
+				select: false,
+				src: CONSTANTS.DEFAULT_AVATARS.MAN2,
 			},
 		],
 		userData: {
@@ -26,11 +33,12 @@ export const useUserStore = defineStore({
 			emailVerified: null,
 			metadata: null,
 			phoneNumber: null,
-			photoURL: avatar2,
+			photoURL: CONSTANTS.DEFAULT_AVATARS.WOMAN1,
 			uid: null,
 			avatarsArr: [],
 			newUser: true,
 		},
+		loginUser: null,
 	}),
 	actions: {
 		setFio() {
@@ -67,6 +75,9 @@ export const useUserStore = defineStore({
 		setDifolteAvatar() {
 			this.avatars[1].select = true;
 			this.userData.photoURL = this.avatars[1].src;
+		},
+		setAutorizedUser(user) {
+			this.loginUser = user;
 		},
 	},
 });

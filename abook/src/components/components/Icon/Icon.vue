@@ -32,6 +32,12 @@
 </script>
 
 <style lang="scss">
+	._icon_ {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
 	.icon_fill {
 		transition: var(--transition);
 		path,
@@ -73,6 +79,11 @@
 			transition: var(--transition);
 		}
 	}
+
+	.icon_fill.logo {
+		fill: var(--vt-c-green-soft);
+	}
+
 	.btn:hover .icon_fill {
 		transform: scale(1.1);
 	}

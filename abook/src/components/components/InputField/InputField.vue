@@ -1,7 +1,7 @@
 <script setup>
 	import { ref, computed } from 'vue';
-	import Tooltip from '@/components/Tooltip/Tooltip.vue';
-	import Icon from '@/components/Icon/Icon.vue';
+	import Tooltip from '@/components/components/Tooltip/Tooltip.vue';
+	import Icon from '@/components/components/Icon/Icon.vue';
 	import {
 		tryToConvertStringToNumber,
 		getFilteredValue,
@@ -73,7 +73,7 @@
 		if (prop.insertValueInFocus === prop.modelValue || prop.cleanOnBlur) {
 			updateInput(null);
 		}
-		if (prop.validation && !scipValid.value) {
+		if (prop.validation && !scipValid.value && prop.modelValue) {
 			prop.validation({ type: prop.type, value: prop.modelValue });
 		}
 		emit('blur');

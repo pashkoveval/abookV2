@@ -1,8 +1,9 @@
 import { useWindowSize } from '@vueuse/core';
 import { useElementBounding } from '@vueuse/core';
-import { GoogleAuthProvider } from "firebase/auth";
+import { GoogleAuthProvider } from 'firebase/auth';
 
 const provider = new GoogleAuthProvider();
+
 export const errorMessage = (error) => {
 	const errorCode = error.code;
 	const errorMessage = error.message;

@@ -1,31 +1,35 @@
-import { initializeApp, getApp } from 'firebase/app';
-import { reactive } from 'vue';
 import { v4 as genId } from 'uuid';
+import { reactive } from 'vue';
+import router from '@/router/index.js';
+import { useUserStore } from '@/stores/user';
+import { initializeApp, getApp } from 'firebase/app';
 import {
-	getStorage,
 	ref,
+	getStorage,
 	getDownloadURL,
 	uploadBytesResumable,
 } from 'firebase/storage';
 import { errorMessage } from '@/helpers/index';
 
 import {
-	getFirestore,
-	collection,
+	doc,
 	addDoc,
-	getDocs,
 	getDoc,
 	setDoc,
-	doc,
+	getDocs,
+	collection,
+	getFirestore,
 } from 'firebase/firestore';
 
 import {
 	getAuth,
-	createUserWithEmailAndPassword,
-	signInWithEmailAndPassword,
+	signOut,
 	updateProfile,
 	signInWithPopup,
 	GoogleAuthProvider,
+	onAuthStateChanged,
+	signInWithEmailAndPassword,
+	createUserWithEmailAndPassword,
 } from 'firebase/auth';
 
 const firebaseConfig = {
@@ -42,8 +46,18 @@ const fb = initializeApp(firebaseConfig);
 const db = getFirestore(fb);
 const auth = getAuth();
 const firebaseApp = getApp();
+const userStore = useUserStore();
 const storage = getStorage(firebaseApp);
 const provider = new GoogleAuthProvider();
+
+onAuthStateChanged(auth, (user) => {
+	if (user) {
+		userStore.setAutorizedUser(user);
+		router.push({ path: '/home' });
+	} else {
+		console.log('not auth');
+	}
+});
 
 const getURL = async (pathImg) => {
 	return await getDownloadURL(ref(storage, pathImg))
@@ -58,6 +72,7 @@ const getURL = async (pathImg) => {
 const getRefFunc = (pathImg = 'img') => {
 	return ref(storage, pathImg);
 };
+
 const btnLogin = async () => {
 	return await signInWithPopup(auth, provider)
 		.then((result) => {
@@ -79,6 +94,18 @@ const btnLogin = async () => {
 			const credential = GoogleAuthProvider.credentialFromError(error);
 			console.error({ errorCode, errorMessage, email, credential });
 			// ...
+		});
+};
+
+const signout = async () => {
+	await signOut(auth)
+		.then(() => {
+			console.log('signout');
+			router.push({ path: '/' });
+			userStore.setAutorizedUser(null);
+		})
+		.catch((error) => {
+			errorMessage(error);
 		});
 };
 
@@ -175,6 +202,7 @@ export const firebaseState = reactive({
 	auth,
 	login,
 	getURL,
+	signout,
 	storage,
 	btnLogin,
 	getStore,
