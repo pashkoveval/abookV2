@@ -1,7 +1,5 @@
 <script setup>
 	import { ref, computed } from 'vue';
-	import Tooltip from '@/components/components/Tooltip/Tooltip.vue';
-	import Icon from '@/components/components/Icon/Icon.vue';
 	import {
 		tryToConvertStringToNumber,
 		getFilteredValue,
@@ -212,6 +210,7 @@
 			max-width: 20px;
 			min-height: 10px;
 			max-height: 20px;
+			color: var(--color-border-input-mute);
 			cursor: pointer;
 			&:active {
 				border-color: var(--color-border-input-focus);

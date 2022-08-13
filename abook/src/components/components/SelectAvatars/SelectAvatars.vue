@@ -1,8 +1,4 @@
 <script setup>
-	import DropDownMenuVue from '@/components/components/DropDownMenu/DropDownMenu.vue';
-	import Tooltip from '@/components/components/Tooltip/Tooltip.vue';
-	import Icon from '@/components/components/Icon/Icon.vue';
-
 	import { useUserStore } from '@/stores/user';
 	import { firebaseState } from '@/fb';
 	import { ref } from 'vue';
@@ -59,8 +55,8 @@
 				</div>
 
 				<label class="btn">
-					<Tooltip text="Выбрать аватар" position="left">
-						<Icon icon="user" class="field-clear btn" size="30" />
+					<Tooltip text="Загрузить свой аватар" position="left">
+						<Icon icon="user" class="add-avatar" size="30" />
 					</Tooltip>
 					<input type="file" class="input-avatar" @input="sendAvatar" />
 				</label>
@@ -143,5 +139,13 @@
 		justify-content: center;
 		height: auto;
 		margin-left: 10px;
+		.add-avatar {
+			transition: var(--transition);
+			color: var(--color-border-input-mute);
+			cursor: pointer;
+			&:hover {
+				color: var(--color-border-input-focus);
+			}
+		}
 	}
 </style>

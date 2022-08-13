@@ -1,12 +1,11 @@
 <template>
-	<header>
+	<header :class="{ enter: route.meta.requiresAuth }">
 		<Icon class="logo" icon="logo" size="150" />
-
 		<div class="wrapper">
-			<HelloWorld msg="You did it!" />
+			<HelloWorld v-if="!route.meta.requiresAuth" msg="You did it!" />
 
 			<nav>
-				<RouterLink v-if="!user.loginUser" to="/">login</RouterLink>
+				<RouterLink v-if="!user.loginUser" to="/">Login</RouterLink>
 				<RouterLink v-if="user.loginUser" to="/home">Home</RouterLink>
 				<RouterLink v-if="user.loginUser" to="/about">About</RouterLink>
 			</nav>
@@ -16,21 +15,30 @@
 
 <script setup>
 	import HelloWorld from '@/components/HelloWorld.vue';
-	import Icon from '@/components/components/Icon/Icon.vue';
-	import { RouterLink } from 'vue-router';
+	import { RouterLink, useRoute } from 'vue-router';
 	import { useUserStore } from '@/stores/user';
 	const user = useUserStore();
+	const route = useRoute();
 </script>
 
 <style lang="scss" scoped>
 	header {
+		width: 100%;
 		line-height: 1.5;
 		max-height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		place-items: center;
 	}
-
+	nav {
+		display: inline-block;
+		width: 100%;
+		height: 3rem;
+	}
 	.logo {
 		display: block;
-		margin: 0 auto 2rem;
+		// margin: 0 auto 2rem;
 	}
 
 	nav {
@@ -76,8 +84,9 @@
 		}
 
 		nav {
+			// width: 100%;
 			text-align: left;
-			margin-left: -1rem;
+			// margin-left: -1rem;
 			font-size: 1rem;
 
 			padding: 1rem 0;

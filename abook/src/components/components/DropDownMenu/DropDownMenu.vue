@@ -1,7 +1,6 @@
 <script setup>
 	import { ref } from 'vue';
 	import { onClickOutside } from '@vueuse/core';
-	import Loader from '@/components/components/Loader/Loader.vue';
 
 	const emit = defineEmits(['open', 'close']);
 

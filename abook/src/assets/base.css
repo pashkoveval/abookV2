@@ -36,6 +36,7 @@
 :root {
   --color-border-input: var(--vt-c-green-mute);
   --color-border-input-focus: var(--vt-c-green-soft);
+  --color-border-input-mute: var(--vt-c-green-mute);
   --color-border-input-error: var(--vt-c-error);
   --color-background: var(--vt-c-white);
   --color-background-green: var(--vt-c-green);
@@ -59,6 +60,7 @@
     --color-white: var(--vt-c-white);
     --color-border-input: var(--vt-c-green);
     --color-border-input-error: var(--vt-c-error-soft);
+    --color-border-input-mute: var(--vt-c-green-mute);
     --color-border-input-focus: var(--vt-c-green-soft);
     /* --color-border-input: var(--vt-c-green);
     --color-border-input-soft: var(--vt-c-green-soft);
@@ -86,9 +88,11 @@
   margin: 0;
   position: relative;
   font-weight: normal;
+  scrollbar-gutter: stable;
 }
 
 body {
+  width: 100%;
   min-height: 100vh;
   color: var(--color-text);
   background: var(--color-background);

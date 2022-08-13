@@ -28,6 +28,7 @@
 		<div v-if="prop.text" class="button_custom-text">
 			<slot>{{ prop.text }}</slot>
 		</div>
+		<slot v-else>{{ prop.text }}</slot>
 		<Icon
 			v-if="prop.icon_end || prop.icon"
 			class="button_custom-icon"
@@ -40,8 +41,6 @@
 </template>
 
 <script setup>
-	import Loader from '@/components/components/Loader/Loader.vue';
-	import Icon from '@/components/components/Icon/Icon.vue';
 	import { RouterLink } from 'vue-router';
 
 	const prop = defineProps([
@@ -78,6 +77,8 @@
 			margin-left: 10px;
 		}
 		&-icon {
+			transition: var(--transition);
+			color: var(--color-border-input-mute);
 			&.margine {
 				margin-left: 10px;
 			}
@@ -90,6 +91,9 @@
 	.button_custom:hover {
 		border-color: var(--color-border-input-focus);
 		background-color: var(--color-background-green);
+		.button_custom-icon {
+			color: var(--color-border-input-focus);
+		}
 	}
 
 	.button_custom:active {

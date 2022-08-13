@@ -53,7 +53,7 @@ const provider = new GoogleAuthProvider();
 onAuthStateChanged(auth, (user) => {
 	if (user) {
 		userStore.setAutorizedUser(user);
-		router.push({ path: '/home' });
+		router.push({ path: '/home', meta: { ...router.meta, user } });
 	} else {
 		console.log('not auth');
 	}

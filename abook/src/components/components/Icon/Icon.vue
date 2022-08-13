@@ -1,10 +1,14 @@
 <template>
 	<div>
-		<div
+		<i
 			class="_icon_"
 			v-html="foundIcon"
-			:style="{ width: prop.size + 'px', height: prop.size + 'px' }"
-		></div>
+			:style="{
+				'max-width': prop.size + 'px',
+				'max-height': prop.size + 'px',
+				color: `var(${prop.color})`,
+			}"
+		></i>
 	</div>
 </template>
 
@@ -23,6 +27,12 @@
 				return '16';
 			},
 		},
+		color: {
+			type: String,
+			default() {
+				return '';
+			},
+		},
 	});
 
 	const foundIcon = computed(() => {
@@ -36,10 +46,10 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		transition: var(--transition);
 	}
 
 	.icon_fill {
-		transition: var(--transition);
 		path,
 		line,
 		circle,
@@ -49,42 +59,14 @@
 			stroke: var(--vt-c-green-soft) !important;
 		}
 	}
-	.error .icon_fill {
-		path,
-		line,
-		circle,
-		rect,
-		polyline,
-		svg {
-			stroke: var(--vt-c-error-soft) !important;
-		}
+	.error ._icon_ {
+		color: var(--vt-c-error-soft) !important;
 	}
-	.warn .icon_fill {
-		path,
-		line,
-		circle,
-		rect,
-		polyline,
-		svg {
-			stroke: var(--vt-c-warn-soft) !important;
-		}
-	}
-	.dontFile .icon_fill {
-		path,
-		line,
-		circle,
-		rect,
-		polyline,
-		svg {
-			transition: var(--transition);
-		}
+	.warn ._icon_ {
+		color: var(--vt-c-warn-soft) !important;
 	}
 
-	.icon_fill.logo {
-		fill: var(--vt-c-green-soft);
-	}
-
-	.btn:hover .icon_fill {
+	.btn:hover ._icon_ {
 		transform: scale(1.1);
 	}
 </style>

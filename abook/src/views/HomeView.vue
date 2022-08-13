@@ -3,16 +3,7 @@
 </script>
 
 <template>
-	<main class="main">
-		<TheWelcome />
-	</main>
+	<TheWelcome />
 </template>
 
-<style lang="scss" scoped>
-	.main {
-		height: 100vh;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-	}
-</style>
+<style lang="scss" scoped></style>

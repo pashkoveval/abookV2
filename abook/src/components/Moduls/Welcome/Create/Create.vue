@@ -72,8 +72,6 @@
 
 <script setup>
 	import SelectAvatars from '@/components/components/SelectAvatars/SelectAvatars.vue';
-	import InputField from '@/components/components/InputField/InputField.vue';
-	import Button from '@/components/components/Button/Button.vue';
 	import { isObjext } from '@/helpers/index';
 	import { useUserStore } from '@/stores/user';
 	import { useErrorsStore } from '@/stores/errors';

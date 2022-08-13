@@ -27,8 +27,6 @@
 </template>
 
 <script setup>
-	import InputField from '@/components/components/InputField/InputField.vue';
-	import Button from '@/components/components/Button/Button.vue';
 	import { useErrorsStore } from '@/stores/errors';
 	import { firebaseState } from '@/fb';
 	import { ref } from 'vue';
