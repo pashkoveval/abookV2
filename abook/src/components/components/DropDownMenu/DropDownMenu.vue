@@ -70,11 +70,9 @@
 				/>
 			</div>
 		</div>
-		<!-- <Transition name="fade"> -->
 		<div v-if="modal" ref="modalRef" class="menu-drop_down">
 			<slot></slot>
 		</div>
-		<!-- </Transition> -->
 	</div>
 </template>
 

@@ -55,6 +55,7 @@ onAuthStateChanged(auth, (user) => {
 		userStore.setAutorizedUser(user);
 		router.push({ path: '/home', meta: { ...router.meta, user } });
 	} else {
+		userStore.setAutorizedUser(false);
 		console.log('not auth');
 	}
 });
@@ -102,7 +103,7 @@ const signout = async () => {
 		.then(() => {
 			console.log('signout');
 			router.push({ path: '/' });
-			userStore.setAutorizedUser(null);
+			userStore.setAutorizedUser(false);
 		})
 		.catch((error) => {
 			errorMessage(error);

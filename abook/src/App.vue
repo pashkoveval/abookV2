@@ -1,9 +1,8 @@
 <script setup>
-	import { onMounted } from 'vue';
+	import { onMounted, computed } from 'vue';
 	import { RouterView } from 'vue-router';
 	import Header from '@/components/Moduls/Header/Header.vue';
 	import { useUserStore } from '@/stores/user';
-	// import { firebaseState } from '@/fb/index.js';
 
 	const user = useUserStore();
 	let firebaseState;
@@ -17,28 +16,36 @@
 	const logOut = () => {
 		return firebaseState.firebaseState.signout();
 	};
+	const authorizedUser = computed(() => {
+		return user.loginUser;
+	});
 </script>
 
 <template>
+	<Transition name="fade" mode="out-in">
+		<Loader v-if="authorizedUser === null" :global="true" />
+	</Transition>
 	<Header />
-	<Tooltip v-if="user.loginUser" text="Выйти ?" position="left" class="signOut">
+	<Tooltip v-if="authorizedUser" text="Выйти ?" position="left" class="signOut">
 		<Button icon="signOut" size="20" @click="logOut" />
 	</Tooltip>
-	<RouterView v-slot="{ Component }">
-		<template v-if="Component">
-			<Transition name="fade">
-				<KeepAlive>
-					<Suspense>
-						<!-- main content -->
-						<component :is="Component"></component>
-
-						<!-- loading state -->
-						<template #fallback> Loading... </template>
-					</Suspense>
-				</KeepAlive>
-			</Transition>
-		</template>
-	</RouterView>
+	<main>
+		<RouterView v-slot="{ Component, route }">
+			<template v-if="Component">
+				<Transition
+					:name="route.meta.transitionName || 'fade-scale'"
+					mode="out-in"
+				>
+					<KeepAlive>
+						<Suspense>
+							<component :is="Component" />
+							<template #fallback> <Loader :global="true" /></template>
+						</Suspense>
+					</KeepAlive>
+				</Transition>
+			</template>
+		</RouterView>
+	</main>
 </template>
 
 <style lang="scss" scoped>

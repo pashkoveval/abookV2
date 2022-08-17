@@ -42,6 +42,7 @@ const router = createRouter({
 		},
 	],
 });
+
 router.beforeEach((to, from) => {
 	if (to.meta.requiresAuth && !user.loginUser) {
 		return {
@@ -49,5 +50,12 @@ router.beforeEach((to, from) => {
 			query: { redirect: to.fullPath },
 		};
 	}
+
+	const toDepth = to.path.length;
+	const fromDepth = from.path.length;
+
+	to.meta.transitionName =
+		Number(toDepth) < Number(fromDepth) ? 'slide-right' : 'slide-left';
 });
+
 export default router;

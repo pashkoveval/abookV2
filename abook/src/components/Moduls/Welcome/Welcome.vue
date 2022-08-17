@@ -1,5 +1,5 @@
 <template>
-	<div class="welcome">
+	<div class="welcome" key="w">
 		<!-- <div class="allIcons">
 			<Icon
 				v-for="i in allicons"

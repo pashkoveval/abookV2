@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div key="l">
 		<InputField
 			v-model="email"
 			type="email"
@@ -40,6 +40,8 @@
 		loading.value = true;
 		const user = await firebaseState.login(email.value, password.value);
 		if (!user) {
+			loading.value = false;
+		} else {
 			loading.value = false;
 		}
 	};
