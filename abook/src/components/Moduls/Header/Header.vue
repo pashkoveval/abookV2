@@ -2,8 +2,9 @@
 	<header :class="{ enter: route.meta.requiresAuth }">
 		<Icon class="logo" icon="logo" size="150" />
 		<div class="wrapper">
-			<HelloWorld v-if="!route.meta.requiresAuth" />
-
+			<Transition name="fade-scale" mode="out-in">
+				<HelloWorld v-if="!route.meta.requiresAuth" />
+			</Transition>
 			<nav>
 				<RouterLink v-if="!user.loginUser" to="/">Login</RouterLink>
 				<RouterLink v-if="user.loginUser" to="/home">Home</RouterLink>
