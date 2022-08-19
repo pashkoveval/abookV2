@@ -1,8 +1,14 @@
 import { useWindowSize } from '@vueuse/core';
 import { useElementBounding } from '@vueuse/core';
-import { GoogleAuthProvider } from 'firebase/auth';
 
-const provider = new GoogleAuthProvider();
+export const foundItemInArrByValue = (arr, field, value) => {
+	const found = arr.find((el) => el[field] === value);
+	if (found) {
+		return found;
+	} else {
+		return null;
+	}
+};
 
 export const errorMessage = (error) => {
 	const errorCode = error.code;

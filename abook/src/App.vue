@@ -37,10 +37,7 @@
 					mode="out-in"
 				>
 					<KeepAlive>
-						<Suspense>
 							<component :is="Component" />
-							<template #fallback> <Loader :global="true" /></template>
-						</Suspense>
 					</KeepAlive>
 				</Transition>
 			</template>

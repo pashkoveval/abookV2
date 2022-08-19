@@ -2,7 +2,7 @@
 	<header :class="{ enter: route.meta.requiresAuth }">
 		<Icon class="logo" icon="logo" size="150" />
 		<div class="wrapper">
-			<HelloWorld v-if="!route.meta.requiresAuth" msg="You did it!" />
+			<HelloWorld v-if="!route.meta.requiresAuth" />
 
 			<nav>
 				<RouterLink v-if="!user.loginUser" to="/">Login</RouterLink>

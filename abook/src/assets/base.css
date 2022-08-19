@@ -1,7 +1,10 @@
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
   --border-radius: 10px;
+  --circle: 50%;
   --transition: 0.4s;
+  --transition2x: 0.8s;
+  --transition3x: 1.2s;
 
   --vt-c-white: #ffffff;
   --vt-c-green: rgba(0, 189, 126, 0.2);

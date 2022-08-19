@@ -30,6 +30,8 @@
 			:btn="true"
 			@click="loginInPopup"
 		/>
+
+		<Slider :slides="slides" />
 	</div>
 </template>
 
@@ -40,10 +42,15 @@
 	import { ref } from 'vue';
 
 	const allicons = ref(Object.keys(icons));
+	const allicons2 = ref(Object.values(icons));
 	const loginInPopup = async () => {
 		const loginIn = await firebaseState.btnLogin();
 		console.log('loginIn', loginIn);
 	};
+
+	const slides = allicons2.value.map((e, idx) => {
+		return { svg: e, text: `text${idx}` };
+	});
 </script>
 
 <style lang="scss" scoped>
