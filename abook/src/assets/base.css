@@ -9,6 +9,8 @@
   --vt-c-white: #ffffff;
   --vt-c-green: rgba(0, 189, 126, 0.2);
   --vt-c-green-soft: #00bd7e;
+  --vc-clr-primary: #00bd7e;
+  --vc-clr-secondary: rgba(0, 189, 126, 0.2);
   --vt-c-green-mute: rgb(2, 126, 84);
   --vt-c-warn: rgb(242, 255, 0);
   --vt-c-warn-soft: rgb(223, 231, 0);

@@ -1,221 +1,107 @@
 <template>
-	<div
-		class="slider"
-		:style="{ width: `${prop.width}px`, height: `${prop.height}px` }"
-	>
-		<div class="slider-body">
-			<div
-				v-for="(slide, idx) in data"
-				:key="idx"
-				class="slider-body-slide"
-				:class="{ active: slide.active }"
-			>
-				<img
-					v-if="slide.src && slide.active"
-					class="slider-body-slide-img"
-					:src="slide.src"
-					:alt="slide.alt"
-				/>
-				<div
-					class="slider-body-slide-svg"
-					v-if="slide.svg"
-					v-html="slide.svg"
-				/>
-				<span
-					v-if="slide.text && slide.active"
-					class="slider-body-slide-text"
-					:class="{ 'img-text': slide.src || slide.svg }"
-				>
-					{{ slide.text }}
-				</span>
-				<div
-					v-if="slide.action && slide.active"
-					class="slider-body-slide-action"
-				>
-					<Button v-bind="slide.action" @click="emit('slideAction')" />
+	<div class="slider">
+		<Carousel :settings="settings" :breakpoints="prop.breakpoints">
+			<Slide v-for="(item, idx) in prop.slides" :key="idx">
+				<slot name="slide" v-bind="item">
+					<div class="content">{{ item.text }}</div>
+				</slot>
+			</Slide>
+
+			<template #addons>
+				<div class="controls">
+					<Navigation v-if="prop.navigation" />
+					<Pagination v-if="prop.pagination" />
 				</div>
-			</div>
-		</div>
-		<div v-if="prop.buttons" class="slider-actions">
-			<div class="slider-nav prev" @click="prev">
-				<Icon class="green" icon="expand_l" size="20" />
-			</div>
-			<div class="slider-nav next" @click="next">
-				<Icon class="green" icon="expand_r" size="20" />
-			</div>
-		</div>
+			</template>
+		</Carousel>
 	</div>
 </template>
 
 <script setup>
-	import Button from '../Button/Button.vue';
-	import { reactive, computed, ref } from 'vue';
-	import { foundItemInArrByValue } from '@/helpers';
+	import 'vue3-carousel/dist/carousel.css';
+	import { Carousel, Slide, Navigation, Pagination } from 'vue3-carousel';
 
-	const emit = defineEmits([
-		'nextSlide',
-		'beforeNextSlide',
-		'prevSlide',
-		'beforePrevSlide',
-		'slideAction',
-	]);
 	const prop = defineProps({
 		slides: {
 			type: Array,
-			required: true,
 			default() {
 				return [];
 			},
 		},
-		buttons: {
+		breakpoints: {
+			type: Object,
+			default() {
+				return {
+					300: {
+						itemsToShow: 1,
+					},
+					700: {
+						itemsToShow: 1,
+					},
+				};
+			},
+		},
+		navigation: {
 			type: Boolean,
 			default() {
 				return true;
 			},
 		},
-		autoPlay: {
+		pagination: {
 			type: Boolean,
 			default() {
-				return false;
+				return true;
 			},
 		},
-		interval: {
-			type: String,
+		autoplay: {
+			type: [String || Number],
 			default() {
-				return '5';
-			},
-		},
-		width: {
-			type: String,
-			default() {
-				return '150';
-			},
-		},
-		height: {
-			type: String,
-			default() {
-				return '150';
+				return 5;
 			},
 		},
 	});
 
-	const timer = ref(null);
-	if (prop.autoPlay) {
-		timer.value = setInterval(() => {
-			next();
-		}, Number(prop.interval) * 1000);
-	}
-
-	const preparedData = prop.slides.map((e, idx) => {
-		if (idx === 0) {
-			return { ...e, active: true, idx };
-		}
-		return { ...e, active: false, idx };
-	});
-	const data = reactive(preparedData);
-
-	const activeSlide = computed(() => {
-		return foundItemInArrByValue(data, 'active', true);
-	});
-
-	const next = () => {
-		const active = activeSlide.value.idx;
-		emit('beforeNextSlide');
-		data[active].active = false;
-		if (active + 1 >= data.length) {
-			data[0].active = true;
-		} else {
-			data[active + 1].active = true;
-		}
-		emit('nextSlide');
+	const settings = {
+		itemsToShow: 1,
+		wrapAround: false,
+		pauseAutoplayOnHover: true,
+		snapAlign: 'center',
+		autoplay: Number(prop.autoplay) * 1000,
+		transition: 1000,
 	};
-
-	const prev = () => {
-		const active = activeSlide.value.idx;
-		emit('beforePrevSlide');
-		data[active].active = false;
-		if (active === 0) {
-			data[data.length - 1].active = true;
-		} else {
-			data[active - 1].active = true;
-		}
-		emit('prevSlide');
-	};
-
-	console.log('data', data);
-	console.log('activeSlide', activeSlide.value);
-	console.log('activeSlide', activeSlide.value.idx);
 </script>
 
 <style lang="scss" scoped>
 	.slider {
+		width: initial;
+		// padding: 0 16px;
+		overflow: hidden;
+		max-width: 80vw;
+		@media (min-width: 1024px) {
+			max-width: 50vw;
+		}
+	}
+	.content {
 		width: 100%;
-		height: 100%;
-		&-body {
+		text-align: left;
+	}
+	.controls {
+		.carousel__pagination {
 			display: flex;
-			align-items: center;
-			justify-content: center;
+			flex-wrap: wrap;
+			max-width: 80vw;
+			margin: 0 20px;
+			padding: 0;
+			@media (min-width: 1024px) {
+				max-width: 50vw;
+			}
+		}
+		.carousel__slide {
 			width: 100%;
-			height: 100%;
-			overflow: hidden;
-			&-slide {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				opacity: 0;
-				width: 100%;
-				height: 100%;
-				visibility: hidden;
-				transition: opacity var(--transition3x);
-				&.active {
-					max-width: initial;
-					max-height: initial;
-					visibility: visible;
-					opacity: 1;
-					position: absolute;
-					top: 50%;
-					left: 50%;
-					transform: translate(-50%, -50%);
-				}
-				&-text {
-					&.img-text {
-						position: absolute;
-						left: 50%;
-						bottom: 0;
-						width: 100%;
-						transform: translateX(-50%);
-						background: linear-gradient(
-							0deg,
-							var(--color-background) 20%,
-							transparent 84%
-						);
-					}
-				}
-			}
-		}
-		&-actions {
-			display: flex;
-			justify-content: space-between;
-		}
-		&-nav {
-			cursor: pointer;
-			max-width: 100%;
-			max-height: 100%;
-			border: 1px solid var(--color-border-input);
-			border-radius: var(--circle);
-			padding: 10px;
-			transition: var(--transition);
-			&.prev .green {
-				transform: translateX(2px);
-			}
-			&.next .green {
-				transform: translateX(4px);
-			}
-			&:hover {
-				transform: scale(1.1);
-			}
-			&:active {
-				background: var(--color-border-input);
+			opacity: 0 !important;
+			margin: 0 30px;
+			&--active {
+				opacity: 1;
 			}
 		}
 	}

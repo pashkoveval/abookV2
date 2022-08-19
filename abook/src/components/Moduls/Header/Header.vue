@@ -6,7 +6,6 @@
 				<HelloWorld v-if="!route.meta.requiresAuth" />
 			</Transition>
 			<nav>
-				<RouterLink v-if="!user.loginUser" to="/">Login</RouterLink>
 				<RouterLink v-if="user.loginUser" to="/home">Home</RouterLink>
 				<RouterLink v-if="user.loginUser" to="/about">About</RouterLink>
 			</nav>
@@ -40,6 +39,9 @@
 	.logo {
 		display: block;
 		// margin: 0 auto 2rem;
+		@media (min-width: 1024px) {
+			width: 150px;
+		}
 	}
 
 	nav {

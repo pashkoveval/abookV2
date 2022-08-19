@@ -59,14 +59,18 @@
 			"
 		/>
 
-		<Button
-			v-if="errorValidateion && dataValidateion"
-			class="button_custom"
-			:loading="loading.value"
-			@click="loginIn"
-		>
-			Создать
-		</Button>
+		<div class="buttons">
+			<Button
+				v-if="errorValidateion && dataValidateion"
+				class="button_custom"
+				:loading="loading.value"
+				@click="loginIn"
+			>
+				Создать
+			</Button>
+
+			<Button to="/"> Вернуться </Button>
+		</div>
 	</div>
 </template>
 
@@ -127,5 +131,9 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+	.buttons {
+		display: flex;
+		justify-content: space-between;
 	}
 </style>

@@ -19,10 +19,12 @@
 			:error="errorsStore.errors.validation['password']"
 			:validation="errorsStore.passwordErrorCheck"
 		/>
-
-		<Button class="button_custom" :loading="loading" @click="loginIn">
-			Войти
-		</Button>
+		<div class="buttons">
+			<Button class="button_custom" :loading="loading" @click="loginIn">
+				Войти
+			</Button>
+			<Button to="/"> Вернуться </Button>
+		</div>
 	</div>
 </template>
 
@@ -47,4 +49,9 @@
 	};
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+	.buttons {
+		display: flex;
+		justify-content: space-between;
+	}
+</style>

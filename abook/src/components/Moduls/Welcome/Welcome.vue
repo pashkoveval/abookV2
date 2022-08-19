@@ -31,7 +31,7 @@
 			@click="loginInPopup"
 		/>
 
-		<Slider :slides="slides" />
+		<!-- <Slider :slides="slides" /> -->
 	</div>
 </template>
 

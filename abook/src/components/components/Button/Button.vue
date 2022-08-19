@@ -6,7 +6,7 @@
 			:icon="prop.icon_start"
 			:size="size"
 		/>
-		<div v-if="prop.text" class="button_custom-text">
+		<div class="button_custom-text">
 			<slot>{{ prop.text }}</slot>
 		</div>
 		<Icon
