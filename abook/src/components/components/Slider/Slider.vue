@@ -37,8 +37,12 @@
 			</div>
 		</div>
 		<div v-if="prop.buttons" class="slider-actions">
-			<Icon class="green slider-nav" icon="expand_l" @click="prev" size="20" />
-			<Icon class="green slider-nav" icon="expand_r" @click="next" size="20" />
+			<div class="slider-nav prev" @click="prev">
+				<Icon class="green" icon="expand_l" size="20" />
+			</div>
+			<div class="slider-nav next" @click="next">
+				<Icon class="green" icon="expand_r" size="20" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -159,8 +163,8 @@
 				align-items: center;
 				justify-content: center;
 				opacity: 0;
-				min-width: 100%;
-				min-height: 100%;
+				width: 100%;
+				height: 100%;
 				visibility: hidden;
 				transition: opacity var(--transition3x);
 				&.active {
@@ -178,7 +182,13 @@
 						position: absolute;
 						left: 50%;
 						bottom: 0;
+						width: 100%;
 						transform: translateX(-50%);
+						background: linear-gradient(
+							0deg,
+							var(--color-background) 20%,
+							transparent 84%
+						);
 					}
 				}
 			}
@@ -194,8 +204,18 @@
 			border: 1px solid var(--color-border-input);
 			border-radius: var(--circle);
 			padding: 10px;
+			transition: var(--transition);
+			&.prev .green {
+				transform: translateX(2px);
+			}
+			&.next .green {
+				transform: translateX(4px);
+			}
 			&:hover {
-				transform: scale(1.2);
+				transform: scale(1.1);
+			}
+			&:active {
+				background: var(--color-border-input);
 			}
 		}
 	}
