@@ -16,6 +16,7 @@
 		<h1 class="green">Добро пожаловать в ABooK</h1>
 		<h3>Приложение помогающее следить за любимыми книгами.</h3>
 		<Slider
+			class="mt-10"
 			:slides="slides"
 			:navigation="false"
 			:pagination="false"

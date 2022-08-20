@@ -1,0 +1,121 @@
+/* Вспомогательные классы */
+
+@for $i from 0 through 100 {
+  .ma-#{$i} {
+    margin: $i + px !important;
+  }
+  .mx-#{$i} {
+    margin-right: $i + px !important;
+    margin-left: $i + px !important;
+  }
+  .my-#{$i} {
+    margin-top: $i + px !important;
+    margin-bottom: $i + px !important;
+  }
+  .mt-#{$i} {
+    margin-top: $i + px !important;
+  }
+  .mr-#{$i} {
+    margin-right: $i + px !important;
+  }
+  .mb-#{$i} {
+    margin-bottom: $i + px !important;
+  }
+  .ml-#{$i} {
+    margin-left: $i + px !important;
+  }
+
+  .pa-#{$i} {
+    padding: $i + px !important;
+  }
+  .px-#{$i} {
+    padding-right: $i + px !important;
+    padding-left: $i + px !important;
+  }
+  .py-#{$i} {
+    padding-top: $i + px !important;
+    padding-bottom: $i + px !important;
+  }
+  .pt-#{$i} {
+    padding-top: $i + px !important;
+  }
+  .pr-#{$i} {
+    padding-right: $i + px !important;
+  }
+  .pb-#{$i} {
+    padding-bottom: $i + px !important;
+  }
+  .pl-#{$i} {
+    padding-left: $i + px !important;
+  }
+}
+
+@for $i from 8 through 100 {
+  .fs-#{$i} {
+    font-size: $i + px;
+  }
+}
+
+@for $i from 2 through 9 {
+  .fw-#{$i} {
+    font-weight: $i * 100;
+  }
+}
+
+.white {
+  color: var($c_white);
+}
+.black {
+  color: var($c_black);
+}
+.indigo {
+  color: var($c_indigo);
+}
+.green {
+  color: var($c_green);
+}
+.green_dark {
+  color: var($c_green_dark);
+}
+.green_soft {
+  color: var($c_green_soft);
+}
+.error {
+  color: var($c_error);
+}
+.error_soft {
+  color: var($c_error_soft);
+}
+.warn {
+  color: var($c_warn);
+}
+.warn_soft {
+  color: var($c_warn_soft);
+}
+.fh {
+  height: 100%;
+}
+.fw {
+  width: 100%;
+}
+.br10 {
+  border-radius: var($br10);
+}
+.br20 {
+  border-radius: var($br20);
+}
+.brc {
+  border-radius: var($brc);
+}
+.transition {
+  transition: var($transition);
+}
+.transition2x {
+  transition: var($transition2x);
+}
+.transition3x {
+  transition: var($transition3x);
+}
+.transition4x {
+  transition: var($transition4x);
+}

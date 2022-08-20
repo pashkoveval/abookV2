@@ -2,7 +2,7 @@
 	<div class="slider">
 		<Carousel :settings="settings" :breakpoints="prop.breakpoints">
 			<Slide v-for="(item, idx) in prop.slides" :key="idx">
-				<slot name="slide" v-bind="item">
+				<slot name="slide" :item="item">
 					<div class="content">{{ item.text }}</div>
 				</slot>
 			</Slide>
@@ -74,7 +74,6 @@
 <style lang="scss" scoped>
 	.slider {
 		width: initial;
-		// padding: 0 16px;
 		overflow: hidden;
 		max-width: 80vw;
 		@media (min-width: 1024px) {
