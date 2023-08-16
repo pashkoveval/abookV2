@@ -1,15 +1,17 @@
 <template>
-	<header :class="{ enter: route.meta.requiresAuth }">
-		<Icon class="logo" icon="logo" size="150" />
-		<div class="wrapper">
+	<header class="header">
+		<Icon class="header-logo" icon="logo" size="150" />
+
+		<div class="header-wrapper">
 			<Transition name="fade-scale" mode="out-in">
 				<HelloWorld v-if="!route.meta.requiresAuth" />
 			</Transition>
-			<nav>
-				<RouterLink v-if="user.loginUser" to="/home">Home</RouterLink>
-				<RouterLink v-if="user.loginUser" to="/about">About</RouterLink>
-			</nav>
 		</div>
+
+		<nav v-if="user.loginUser" class="nav">
+			<RouterLink to="/home">Home</RouterLink>
+			<RouterLink to="/about">About</RouterLink>
+		</nav>
 	</header>
 </template>
 
@@ -22,34 +24,33 @@
 </script>
 
 <style lang="scss" scoped>
-	header {
+	.header {
 		width: 100%;
-		line-height: 1.5;
-		max-height: 100vh;
+		height: 100%;
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		place-items: center;
+		justify-content: flex-end;
+		// grid-area: header;
+		&-logo {
+			margin-right: 20px;
+		}
 	}
-	nav {
-		display: inline-block;
-		width: 100%;
-		height: 3rem;
+
+	.nav {
+		display: block;
+		width: fit-content;
 	}
 	.logo {
 		display: block;
-		// margin: 0 auto 2rem;
 		@media (min-width: 1024px) {
 			width: 150px;
 		}
 	}
 
-	nav {
-		width: 100%;
-		font-size: 12px;
-		text-align: center;
-		margin-top: 2rem;
-	}
+	// nav {
+	// 	text-align: center;
+	// 	margin-top: 2rem;
+	// }
 
 	nav a.router-link-exact-active {
 		color: var(--color-text);
@@ -70,36 +71,39 @@
 	}
 
 	@media (min-width: 1024px) {
-		header {
-			display: flex;
-			place-items: center;
-			// padding-right: calc(var(--section-gap) / 2);
-		}
+		// header {
+		// 	width: 50%;
+		// 	height: 100%;
+		// display: flex;
+		// place-items: center;
+		// padding-right: calc(var(--section-gap) / 2);
+		// }
 
 		.logo {
 			margin: 0 2rem 0 0;
 		}
 
 		header .wrapper {
+			width: 100%;
 			display: flex;
 			place-items: flex-start;
 			flex-wrap: wrap;
 		}
 
-		nav {
-			// width: 100%;
-			text-align: left;
-			// margin-left: -1rem;
-			font-size: 1rem;
+		// nav {
+		// width: 100%;
+		// text-align: left;
+		// margin-left: -1rem;
+		// font-size: 1rem;
 
-			padding: 1rem 0;
-			margin-top: 1rem;
-		}
+		// padding: 1rem 0;
+		// margin-top: 1rem;
+		// }
 	}
-	.sign-out {
-		position: absolute;
-		top: 0;
-		right: 0;
-		z-index: 9;
-	}
+	// .sign-out {
+	// 	position: absolute;
+	// 	top: 0;
+	// 	right: 0;
+	// 	z-index: 9;
+	// }
 </style>

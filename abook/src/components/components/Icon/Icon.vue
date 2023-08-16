@@ -47,6 +47,7 @@
 		align-items: center;
 		justify-content: center;
 		transition: var(--transition);
+		overflow: hidden;
 	}
 
 	.icon_fill {

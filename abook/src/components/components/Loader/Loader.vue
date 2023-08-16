@@ -1,12 +1,14 @@
 <template>
-	<div :class="{ 'loader-global': global }">
-		<i
-			class="loader-spiner"
-			:style="{ height: prop.height + 'px', width: prop.width + 'px' }"
-		>
-			<span v-if="global">Загрузка</span>
-		</i>
-	</div>
+	<Transition name="fade" mode="out-in">
+		<div :class="{ 'loader-global': global }">
+			<i
+				class="loader-spiner"
+				:style="{ height: prop.height + 'px', width: prop.width + 'px' }"
+			>
+				<span v-if="global">Загрузка</span>
+			</i>
+		</div>
+	</Transition>
 </template>
 
 <script setup>

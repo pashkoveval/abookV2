@@ -1,5 +1,11 @@
 @import "./base.css";
 
+body {
+  width: 100dvw;
+  height: 100dvh;
+  overflow: hidden;
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -14,22 +20,24 @@
 }
 
 #app {
-  max-width: 1280px;
-  width: 100%;
-  margin: 0 auto;
-  font-weight: normal;
-  height: 100vh;
-  align-items: center;
+  width: 100dvw;
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* grid-template-areas:
+    "header" "main"
+    "header" "main"; */
+  padding: 0 1rem;
+  /* gap: 50px; */
   scrollbar-width: thin;
   position: relative;
+  align-content: stretch;
 }
 
-main {
+.main {
   width: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 100%;
+  /* grid-area: main; */
 }
 
 .loader-spiner {
@@ -70,6 +78,8 @@ main {
 
 .loader-global {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -86,15 +96,32 @@ main {
 
 @keyframes resize {
   0% {
-    box-shadow: 0px 0px 0px 2px var(--vt-c-green), inset 0px 0px 0px 5px var(--vt-c-green);
+    box-shadow:
+      0px 0px 0px 2px var(--vt-c-green),
+      inset 0px 0px 0px 5px var(--vt-c-green);
   }
   50% {
-    box-shadow: 0px 0px 0px 5px var(--vt-c-green), inset 0px 0px 0px 0px var(--vt-c-green);
+    box-shadow:
+      0px 0px 0px 5px var(--vt-c-green),
+      inset 0px 0px 0px 0px var(--vt-c-green);
   }
   100% {
-    box-shadow: 0px 0px 0px 2px var(--vt-c-green), inset 0px 0px 0px 5px var(--vt-c-green);
+    box-shadow:
+      0px 0px 0px 2px var(--vt-c-green),
+      inset 0px 0px 0px 5px var(--vt-c-green);
   }
 }
+button {
+  padding: 8px;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: var(--transition);
+  background-color: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border-input);
+  border-radius: var(--border-radius);
+}
+
 a,
 .green {
   text-decoration: none;
@@ -116,23 +143,9 @@ input:focus {
 }
 
 @media (hover: hover) {
+  button:hover,
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 1rem;
   }
 }
 

@@ -1,3 +1,7 @@
+<script>
+	name: 'asdasd-as';
+</script>
+
 <template>
 	<div class="item">
 		<i>
