@@ -1,25 +1,28 @@
 {
-  "name": "abook",
+  "name": "my-vue-app",
+  "private": true,
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "serve": "vite",
     "build": "vite build",
-    "preview": "vite preview --port 4173"
+    "preview": "vite preview"
   },
   "dependencies": {
+    "vue": "^3.3.4",
     "@vueuse/core": "^9.1.0",
     "axios": "^0.27.2",
     "firebase": "^9.9.2",
     "moment": "^2.29.4",
     "pinia": "^2.0.16",
     "uuid": "^8.3.2",
-    "vue": "^3.2.37",
     "vue-router": "^4.1.2",
-    "vue3-carousel": "^0.1.46"
+    "vue3-carousel": "^0.1.46",
+    "webpack": "^5.88.2"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^3.0.1",
-    "sass": "^1.54.3",
-    "vite": "^3.0.1"
+    "@vitejs/plugin-vue": "^4.2.3",
+    "sass": "^1.65.1",
+    "vite": "^4.4.5"
   }
 }
