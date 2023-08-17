@@ -7,7 +7,9 @@
 		</i>
 		<div class="details">
 			<h3>
-				<slot name="heading">{{ prop.heading }}</slot>
+				<slot name="heading">
+					<span class="green">{{ prop.heading }}</span>
+				</slot>
 			</h3>
 			<span class="text">
 				<slot>{{ prop.text }}</slot>
@@ -30,7 +32,6 @@
 		width: 32px;
 		height: 32px;
 		color: var(--color-heading);
-		transition: var(--transition);
 	}
 	.item {
 		width: 100%;
@@ -39,26 +40,26 @@
 		position: relative;
 		&.button {
 			cursor: pointer;
-		}
 
-		&:hover {
-			.details {
-				.text {
-					opacity: 0;
-				}
-				h3 {
-					transform: translateY(50%);
-				}
-			}
-			&.link,
-			&.button {
-				i {
-					color: var(--vt-c-green-mute);
-				}
+			&:hover {
 				.details {
-					color: var(--vt-c-green-mute);
+					.text {
+						opacity: 0;
+					}
 					h3 {
-						color: var(--vt-c-green-soft);
+						transform: translateY(50%);
+					}
+				}
+				&.link,
+				&.button {
+					i {
+						color: var(--vt-c-green-mute);
+					}
+					.details {
+						color: var(--vt-c-green-mute);
+						h3 {
+							color: var(--vt-c-green-soft);
+						}
 					}
 				}
 			}

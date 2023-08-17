@@ -30,7 +30,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
-		// grid-area: header;
 		&-logo {
 			margin-right: 20px;
 		}

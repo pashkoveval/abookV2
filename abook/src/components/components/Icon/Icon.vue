@@ -1,15 +1,19 @@
 <template>
-	<div>
-		<i
-			class="_icon_"
-			v-html="foundIcon"
-			:style="{
-				'max-width': prop.size + 'px',
-				'max-height': prop.size + 'px',
-				color: `var(${prop.color})`,
-			}"
-		></i>
-	</div>
+	<!-- <div> -->
+	<div
+		class="_icon_"
+		v-html="foundIcon"
+		:style="{
+			width: prop.size + 'px !important',
+			'max-width': prop.size + 'px !important',
+			'min-width': prop.size + 'px !important',
+			height: prop.size + 'px !important',
+			'max-height': prop.size + 'px !important',
+			'min-height': prop.size + 'px !important',
+			color: `var(${prop.color})`,
+		}"
+	/>
+	<!-- </div> -->
 </template>
 
 <script setup>
@@ -47,19 +51,27 @@
 		align-items: center;
 		justify-content: center;
 		transition: var(--transition);
-		overflow: hidden;
+		width: 100%;
+		height: 100%;
+		text-align: center;
 	}
 
-	.icon_fill {
-		path,
-		line,
-		circle,
-		rect,
-		polyline,
-		svg {
-			stroke: var(--vt-c-green-soft) !important;
-		}
-	}
+	// .icon_fill {
+	// 	path,
+	// 	line,
+	// 	circle,
+	// 	rect,
+	// 	polyline,
+	// 	svg {
+	// display: block !important;
+	// width: 100% !important;
+	// height: 100% !important;
+	// min-width: 100% !important;
+	// min-height: 100% !important;
+	// stroke: var(--vt-c-green-soft) !important;
+	// 	}
+	// }
+
 	.error ._icon_ {
 		color: var(--vt-c-error-soft) !important;
 	}
